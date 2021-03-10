@@ -9,7 +9,7 @@
     } from 'carbon-components-svelte'
     import * as api from 'api'
     import { 
-        //tags,
+        userTags
     } from '../stores.js'
     import { onMount } from 'svelte';
 
@@ -25,7 +25,6 @@
     let current
 
     let open = false
-    let tags=[]
     let got
     let tag
     let ref
@@ -41,29 +40,27 @@
     }
 
     let addTag = () => {
-        if (tag != '' && !tags.includes(tag)){
-            tags = [...tags, tag]
+        if (tag != '' && !$userTags.includes(tag)){
+            $userTags = [...$userTags, tag]
             open=true
         }
     }
 
     let delTag = (tag) => {
-        tags=tags.filter(t => t != tag)
+        $userTags=$userTags.filter(t => t != tag)
         get()
     }
 
     let clear = () => {
-        tags = []
+        $userTags = []
         open = false
     }
 
     let get = async function(){
-        console.log('get')
-        let tagString = JSON.stringify(tags)
+        let tagString = JSON.stringify($userTags)
         let url = `users?tags=${tagString}&page=${page+1}`
         let res = await api.get(url)
         users = res.items
-        console.log(users)
         total = res.total
         pages = res.pages
         got = true
@@ -81,7 +78,6 @@
     <Column>
         <Search
             on:focus={() => (current=ref)}
-            placeholder='Add tag'
             bind:value={tag}
             bind:ref
         />
@@ -97,7 +93,7 @@
             >
                 Clear
             </Tag>
-            {#each tags as tag}
+            {#each $userTags as tag}
                 <Tag filter on:click={delTag(tag)}>{tag}</Tag>
             {/each}
         </Column>
@@ -123,7 +119,7 @@
 
 {#if got && total < 1}
 <div>
-    <p>There don't seem to be any results for that</p>
+    <p>There don't seem to be any results</p>
 </div>
 {/if}
 

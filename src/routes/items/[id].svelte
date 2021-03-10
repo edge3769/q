@@ -25,14 +25,19 @@
     export let id
     import {
         PaginationNav,
-        TextInput,
         Checkbox,
         Column,
+        Search,
         Link,
         Tag,
         Row,
     } from 'carbon-components-svelte'
     import * as api from 'api'
+    import { onMount } from 'svelte';
+
+    onMount(()=>{
+        ref.focus()
+    })
 
     let page = 0
 
@@ -43,6 +48,8 @@
     let got
     let tag
     let ref
+
+    $: get(visible)
 
     let keydown = (e) => {
         switch(e.keyCode){
@@ -58,6 +65,7 @@
         if (tag != '' && !tags.includes(tag)){
             tags = [...tags, tag]
             open=true
+            tag = ''
         }
     }
 
@@ -90,9 +98,8 @@
 
 <Row noGutter>
     <Column noGutter>
-        <TextInput
+        <Search
             on:focus={() => (current=ref)}
-            placeholder='Add tag'
             bind:value={tag}
             bind:ref
         />
@@ -139,7 +146,7 @@
 
 {#if got && total < 1}
 <Row noGutter>
-    <p>There don't seem to be any results for that</p>
+    <p>There don't seem to be any results</p>
 </Row>
 {/if}
 

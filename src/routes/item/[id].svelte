@@ -9,7 +9,6 @@
         if (item == '423')(
             this.error(423, 'item not visible')
         )
-        console.log(item)
         return {item}
     }
 </script>
@@ -39,7 +38,7 @@
             <img width=100% height=100% alt='itemImage' src={item.image}>
         </div>
     </Column>
-    <Column>
+    <Column style='float: left'>
         {#if item.name}
             <h2>{item.name}</h2>
         {/if}

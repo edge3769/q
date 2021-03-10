@@ -37,6 +37,7 @@
     {#if $session.user}
       <SideNavLink href='add_item' text='Add Item'/>
       <SideNavLink href='items/{$session.user.id}' text='My Items'/>
+      <SideNavLink href='users' text='Users'/>
       <SideNavLink href='edit' text='Edit'/>
       <SideNavLink text='Exit' href='' on:click={exit} />
     {/if}

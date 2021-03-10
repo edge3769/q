@@ -78,9 +78,7 @@
     }
 
     let delTag = (tag) => {
-        console.log(tag)
         tags = tags.filter(t => t != tag)
-        console.log(tags)
     }
 
     let checkUsername = async () => {
@@ -109,7 +107,6 @@
             name,
         } 
         let res = await api.put('users', data, token)
-        console.log(res)
         if (res.id) {
             $session.user = res;
             goto('/')

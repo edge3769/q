@@ -10,7 +10,8 @@ function simpleStore() {
 }
 
 export const sort = simpleStore()
-export const tags = simpleStore()
+export const itemTags = simpleStore()
+export const userTags = simpleStore()
 export const itype = simpleStore()
 export const stateId = simpleStore()
 export const nationId = simpleStore()

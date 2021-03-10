@@ -43,7 +43,6 @@
     let join  = async function() {
         usernameInvalid=false
         if (usernameInvalid || passwordInvalid) return
-        console.log(username, password)
         let r = await post(`auth/join`, { username, password })
         usernameError = r.usernameError
         passwordError = r.passwordError

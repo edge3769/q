@@ -28,6 +28,9 @@
         Tag
     } from 'carbon-components-svelte'
     import Image from '../../components/Image.svelte'
+    import Input from '../../components/Input/Input.svelte'
+
+    let nameInvalid
 
     let description = item.description
     let visible = item.visible
@@ -80,7 +83,7 @@
     let del = async function(){
         let res = await api.del(`items/${item.id}`, user.token)
         if (res.yes){
-            goto('items')
+            goto(`items/${user.id}`)
         }
     }
 
@@ -100,6 +103,9 @@
             tags,
         }
         let res = await api.put('items', data, user.token)
+        if (res.nameError) {
+            nameInvalid = true
+        }
         if (res.id){
             goto(`item/${item.id}`)
         }
@@ -170,7 +176,12 @@
 <Row noGutter>
     <Column>
         <FluidForm>
-            <TextInput labelText="Name" bind:value={name} />
+            <Input 
+                labelText="Name" 
+                bind:value={name}
+                bind:invalid={nameInvalid}
+                invalidText='Name taken'
+            />
             <TextInput labelText="Price" bind:value={price} />
         </FluidForm>
             <TextArea labelText="Description" bind:value={description} />

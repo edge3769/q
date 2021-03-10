@@ -3,13 +3,13 @@
         Tag,
         Row,
         Link,
+        Search,
         Column,
-        TextInput,
-        PaginationNav
+        PaginationNav,
     } from 'carbon-components-svelte'
     import * as api from 'api'
     import { 
-        //tags,
+        itemTags
     } from '../stores.js'
     import { onMount } from 'svelte';
 
@@ -25,7 +25,6 @@
     let current
 
     let open = false
-    let tags=[]
     let got
     let tag
     let ref
@@ -41,25 +40,25 @@
     }
 
     let addTag = () => {
-        if (tag != '' && !tags.includes(tag)){
-            tags=[...tags, tag]
+        if (tag != '' && !$itemTags.includes(tag)){
+            $itemTags=[...$itemTags, tag]
             open=true
             tag=''
         }
     }
 
     let delTag = (tag) => {
-        tags=tags.filter(t => t != tag)
+        $itemTags=$itemTags.filter(t => t != tag)
         get()
     }
 
     let clear = () => {
-        tags = []
+        $itemTags = []
         open = false
     }
 
     let get = async function(){
-        let tagString = JSON.stringify(tags)
+        let tagString = JSON.stringify($itemTags)
         let url = `items?tags=${tagString}&visible=1&page=${page+1}`
         let res = await api.get(url)
         items = res.items
@@ -78,9 +77,8 @@
 
 <Row noGutter>
     <Column>
-        <TextInput
-            on:focus={() => (current=ref)}
-            placeholder='Search'
+        <Search
+            on:focus={() => {current=ref}}
             bind:value={tag}
             bind:ref
         />
@@ -96,7 +94,7 @@
             >
                 Clear
             </Tag>
-            {#each tags as tag}
+            {#each $itemTags as tag}
                 <Tag filter on:click={delTag(tag)}>{tag}</Tag>
             {/each}
         </Column>
@@ -111,21 +109,27 @@
             {:else}
                 <img style='vertical-align: middle;' height='37px' width='37px' alt='profile pic' src='/placeholder.png'>
             {/if}
-            <Link href='item.{item.id}'>{item.name}</Link>
+            <Link href='item/{item.id}'>{item.name}</Link>
         </div>
     </Row>
     <br/>
-    {/each}
+{/each}
 
 <!--08168080932 - Whatsapp
     08032146531 - Normal -->
 
 {#if got && total < 1}
-<div>
-    <p>There don't seem to be any results for that</p>
-</div>
+    <Row noGutter>
+        <Column>
+            <p>There don't seem to be any results</p>        
+        </Column>
+    </Row>
 {/if}
 
 {#if total>10}
-    <PaginationNav loop bind:page bind:total={pages}/>
+    <Row noGutter>
+        <Column>
+            <PaginationNav loop bind:page bind:total={pages}/>
+        </Column>
+    </Row>
 {/if}

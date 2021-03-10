@@ -10,7 +10,7 @@
 <script>
     export let user
     import Image from '../components/Image.svelte'
-    import Filter16 from 'carbon-icons-svelte/lib/Filter16'
+    import Input from '../components/Input/Input.svelte'
     import {
         Tag,
         Row,
@@ -28,8 +28,9 @@
 
     let name
     let price
-    let itype = 'product'
     let description
+    let nameInvalid
+    let itype = 'product'
 
     let token = user.token
     let files = []
@@ -87,6 +88,9 @@
             description
         }
         let res = await api.post('items', data, token)
+        if (res.nameError) {
+            nameInvalid = true
+        }
         if (res.id) {
             goto(`item/${res.id}`)
         }
@@ -113,6 +117,7 @@
 <Row noGutter>
     <Column noGutter>
         <TextInput
+            on:blur={addTag}
             on:focus={() => (current=ref)}
             placeholder='Add tag'
             bind:value={tag}
@@ -140,7 +145,12 @@
 <Row noGutter>
     <Column>
         <FluidForm>
-            <TextInput labelText="Name" bind:value={name} />
+            <Input
+                bind:invalid={nameInvalid}
+                invalidText='Name taken'
+                labelText="Name"
+                bind:value={name} 
+            />
             <TextInput labelText="Price" bind:value={price} />
         </FluidForm>
             <TextArea labelText="Description" bind:value={description} />

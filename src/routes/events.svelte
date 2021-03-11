@@ -9,7 +9,7 @@
     } from 'carbon-components-svelte'
     import * as api from 'api'
     import { 
-        itemTags
+        eventTags
     } from '../stores.js'
     import { onMount } from 'svelte';
 
@@ -17,7 +17,7 @@
         ref.focus()
     })
 
-    let items = []
+    let events = []
     let page = 0
     let total = 0
     let pages = 0
@@ -40,28 +40,30 @@
     }
 
     let addTag = () => {
-        if (tag != '' && !$itemTags.includes(tag)){
-            $itemTags=[...$itemTags, tag]
+        if (tag != '' && !$eventTags.includes(tag)){
+            $eventTags=[...$eventTags, tag]
             open=true
             tag=''
         }
     }
 
     let delTag = (tag) => {
-        $itemTags=$itemTags.filter(t => t != tag)
+        $eventTags=$eventTags.filter(t => t != tag)
         get()
     }
 
     let clear = () => {
-        $itemTags = []
+        $eventTags = []
         open = false
     }
 
     let get = async function(){
-        let tagString = JSON.stringify($itemTags)
-        let url = `items?tags=${tagString}&visible=1&page=${page+1}`
+        console.log('get')
+        let tagString = JSON.stringify($eventTags)
+        let url = `events?tags=${tagString}&visible=1&page=${page+1}`
         let res = await api.get(url)
-        items = res.items
+        console.log(res)
+        events = res.items
         total = res.total
         pages = res.pages
         got = true
@@ -94,23 +96,23 @@
             >
                 Clear
             </Tag>
-            {#each $itemTags as tag}
+            {#each $eventTags as tag}
                 <Tag filter on:click={delTag(tag)}>{tag}</Tag>
             {/each}
         </Column>
     </Row>
 {/if}
 
-{#each items as item}
+{#each events as event}
     <br />
     <Row noGutter>
         <div>
-            {#if item.image}
-                <img style='vertical-align: top;' height='37px' width='37px' alt='profile pic' src={item.image}>
+            {#if event.image}
+                <img style='vertical-align: top;' height='37px' width='37px' alt='profile pic' src={event.image}>
             {:else}
                 <img style='vertical-align: top;' height='37px' width='37px' alt='profile pic' src='/placeholder.png'>
             {/if}
-            <Link href='item/{item.id}'>{item.name}</Link>
+            <Link href='event/{event.id}'>{event.name}</Link>
         </div>
     </Row>
 {/each}

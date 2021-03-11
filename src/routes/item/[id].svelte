@@ -29,11 +29,10 @@
     if (item.description){
         description = marked(item.description)
     }
-    let open
 </script>
 
 <Row noGutter>
-    <Column>
+    <Column lg={2} sm={2} md={2} xlg={2}>
         <div style='width: 111px; height: 111px;'>
             <img width=100% height=100% alt='itemImage' src={item.image}>
         </div>
@@ -55,7 +54,7 @@
         {#if item.phone}
             <p>{item.phone}</p>
         {/if}
-        <Link href='' on:click={open}>Gallery</Link>
+        <!-- <Link href='' on:click={open}>Gallery</Link> -->
         <Link href='{item.user}'>User</Link>
         {#if $session.user.username == item.user}
             <Link href='edit/{item.id}'>Edit</Link>

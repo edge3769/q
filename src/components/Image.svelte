@@ -1,6 +1,9 @@
 <script>
     export let image
     export let files
+
+    import {placeholder} from '../placeholder.js'
+
     import {
         Row,
         Column,
@@ -18,7 +21,9 @@
     let imgRef
     let open
 
-    let imageText
+    $: if (!image){
+        image = placeholder
+    }
 
     $: if (imgRef) imgRef.src = image
 
@@ -44,7 +49,6 @@
 
     let imageChange = () => {
         let i = imageRef.files[0]
-        console.log(i)
         var reader = new FileReader()
         reader.onload = (e) => {
             image = e.target.result
@@ -106,13 +110,13 @@
                 bind:ref={imageRef} 
                 labelText='Change image'
             />
-            <FileUploaderButton
+            <!-- <FileUploaderButton
                 labelText='Add to images' 
                 on:change={imagesChange}
                 bind:ref={imagesRef}
                 disableLabelChanges
                 multiple
-            />
+            /> -->
         </ButtonSet>
     </Column>
 </Row>

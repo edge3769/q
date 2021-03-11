@@ -16,6 +16,7 @@
     } from 'carbon-components-svelte';
     import Input from '../components/Input/Input.svelte'
     import { goto, stores } from '@sapper/app';
+    import { logged } from '../stores.js'
     import { post } from 'utils.js';
 
     let { session } = stores();
@@ -48,8 +49,10 @@
         passwordError = r.passwordError
         usernameInvalid = r.usernameInvalid
         passwordInvalid = r.passwordInvalid
+        console.log(r.user)
         if (r.user) {
             $session.user = r.user
+            $logged = true
             goto('edit')
         }
     }
@@ -64,6 +67,7 @@
         passwordInvalid = r.passwordInvalid
         if (r.user) {
             $session.user = r.user
+            $logged = true
             goto('/')
         }
     }

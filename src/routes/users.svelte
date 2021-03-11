@@ -101,17 +101,17 @@
 {/if}
 
 {#each users as user}
+    <br />
     <Row noGutter>
         <div>
             {#if user.image}
-                <img style='vertical-align: middle;' height='37px' width='37px' alt='profile pic' src={user.image}>
+                <img style='vertical-align: top;' height='37px' width='37px' alt='profile pic' src={user.image}>
             {:else}
-                <img style='vertical-align: middle;' height='37px' width='37px' alt='profile pic' src='/placeholder.png'>
+                <img style='vertical-align: top;' height='37px' width='37px' alt='profile pic' src='/placeholder.png'>
             {/if}
             <Link href='{user.username}'>{user.name}</Link>
         </div>
     </Row>
-    <br/>
     {/each}
 
 <!--08168080932 - Whatsapp

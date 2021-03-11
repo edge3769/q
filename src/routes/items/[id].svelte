@@ -131,17 +131,17 @@
 {/if}
 
 {#each items as item}
+    <br/>
     <Row noGutter>
         <div>
             {#if item.image}
-                <img style='vertical-align: middle;' height='37px' width='37px' alt='profile pic' src={item.image}>
+                <img style='vertical-align: top;' height='37px' width='37px' alt='profile pic' src={item.image}>
             {:else}
-                <img style='vertical-align: middle;' height='37px' width='37px' alt='profile pic' src='/placeholder.png'>
+                <img style='vertical-align: top;' height='37px' width='37px' alt='profile pic' src='/placeholder.png'>
             {/if}
             <Link href='item/{item.id}'>{item.name}</Link>
         </div>
     </Row>
-    <br/>
 {/each}
 
 {#if got && total < 1}

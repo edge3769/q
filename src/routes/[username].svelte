@@ -34,15 +34,15 @@
 />
 
 <Row>
-    <Column>
+    <Column lg={2} sm={2} md={2} xlg={2}>
         <div style='width: 111px; height: 111px;'>
-            <img width=100% height=100% alt='userImage' src={user.image}>
+            <img style='width: 100%; height: 100%' width=100 height=100 alt='userImage' src={user.image}>
         </div>
     </Column>
     <Column>
-        <h2>{user.username}</h2>
-        {#if user.name}
-            <p>{user.name}</p>
+        <h2>{user.name}</h2>
+        {#if user.username}
+            <p>{user.username}</p>
         {/if}
         {#if user.address}
             <p>{user.address}</p>
@@ -56,9 +56,9 @@
         {#if user.phone}
             <p>{user.phone}</p>
         {/if}
-        {#if !user.images_empty}
+        <!-- {#if !user.images_empty}
             <div><Link href={null} on:click={open}>Gallery</Link></div>
-        {/if}
+        {/if} -->
         {#if !user.items_empty}
             <div><Link href='items/{user.id}'>Items</Link></div>
         {/if}

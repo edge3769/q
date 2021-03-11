@@ -4,11 +4,14 @@
         if (!user){
             this.redirect(302, 'enter')
         }
-        //user = api.get(`user/?id=${user.id}`)
+        user = await api.get(`user/${user.id}`)
+        console.log(user)
+        return {user}
     }
 </script>
     
 <script>
+    export let user
     import { goto, stores } from '@sapper/app';
     import {
         FluidForm,
@@ -25,18 +28,18 @@
 
     let { session } = stores();
 
-    let username = $session.user.username
-    let visible = $session.user.visible
-    let address = $session.user.address
-    let website = $session.user.website
-    let images = $session.user.images || []
-    let image = $session.user.image
-    let tags = $session.user.tags || []
-    let email = $session.user.email
-    let phone = $session.user.phone
-    let about = $session.user.about
-    let token = $session.user.token
-    let name = $session.user.name
+    let username = user.username
+    let visible = user.visible
+    let address = user.address
+    let website = user.website
+    let images = user.images
+    let image = user.image
+    let tags = user.tags
+    let email = user.email
+    let phone = user.phone
+    let about = user.about
+    let token = user.token
+    let name = user.name
 
     let usernameInvalid
     let usernameError
@@ -46,9 +49,9 @@
     let tag
     let ref
 
-    images.forEach(i=>{
-        files = [...files, {url:i, name:'null', ref:null, status:'complete'}]
-    })
+    // images.forEach(i=>{
+    //     files = [...files, {url:i, name:'null', ref:null, status:'complete'}]
+    // })
 
     $: if (username === '') {
         usernameInvalid=true
@@ -82,7 +85,7 @@
     }
 
     let checkUsername = async () => {
-        if (username != $session.user.username){
+        if (username != user.username){
             usernameInvalid = await api.get(`check_username/${username}`).then(r => !r.res)
         }
     }

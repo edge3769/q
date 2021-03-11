@@ -42,14 +42,14 @@
   <SideNavItems>
     <SideNavLink href='events' text='Events'/>
     <SideNavLink href='users' text='Users'/>
-    {#if $logged}
+    {#if $session.user && $logged}
       <SideNavLink href='add_event' text='Add Event'/>
       <SideNavLink href='add_item' text='Add Item'/>
       <SideNavLink href='items/{$session.user.id}' text='My Items'/>
       <SideNavLink href='edit' text='Edit'/>
       <SideNavLink text='Exit' href='' on:click={exit} />
     {/if}
-    {#if !$logged}
+    {#if !$session.user || !$logged}
       <SideNavLink text='Enter' href='enter'/>
     {/if}
   </SideNavItems>

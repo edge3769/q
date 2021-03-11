@@ -22,33 +22,31 @@
         FluidForm,
         RadioButton,
         RadioButtonGroup,
-DatePicker,
-DatePickerInput
+        DatePicker,
+        DatePickerInput
     } from 'carbon-components-svelte'
     import { goto } from '@sapper/app'
     import * as api from 'api'
 
     let name
     let price
+    let start_date
+    let end_date
+    let start_time
     let description
     let nameInvalid
     let itype = 'product'
+
+    $:console.log(typeof(start_date))
 
     let token = user.token
     let files = []
     let tags = []
     let current
     let image
-    let desc
     let open
     let tag
     let ref
-
-    $: if (!open) {
-        desc='Show Tags'
-    } else {
-        desc='Hide Tags'
-    }
 
     let clear = () => {
         tags = []
@@ -149,6 +147,9 @@ DatePickerInput
 
 <Row noGutter>
     <Column>
+        <DatePicker bind:value={start_date} datePickerType='single'>
+            <DatePickerInput labelText='Start Date' />
+        </DatePicker>
         <FluidForm>
             <Input
                 bind:invalid={nameInvalid}
@@ -156,9 +157,7 @@ DatePickerInput
                 labelText="Name"
                 bind:value={name} 
             />
-            <DatePicker datePickerType='single'>
-                <DatePickerInput labelText='Date' />
-            </DatePicker>
+            
         </FluidForm>
         <TextArea labelText="Description" bind:value={description} />
     </Column>

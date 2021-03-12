@@ -139,7 +139,7 @@
 
 <Row noGutter>
     <Column>
-        <RadioButtonGroup selected={itype}>
+        <RadioButtonGroup bind:selected={itype}>
             <RadioButton labelText='Product' value='product' />
             <RadioButton labelText='Service' value='service' />
         </RadioButtonGroup>

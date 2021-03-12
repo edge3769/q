@@ -27,6 +27,7 @@
     } from 'carbon-components-svelte'
     import { goto } from '@sapper/app'
     import * as api from 'api'
+import { get } from 'svelte/store';
 
     let name
     let price

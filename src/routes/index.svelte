@@ -5,17 +5,18 @@
         Link,
         Search,
         Column,
+        RadioButton,
         PaginationNav,
+        RadioButtonGroup
     } from 'carbon-components-svelte'
     import * as api from 'api'
-    import { 
+    import {
+        itype,
         itemTags
     } from '../stores.js'
-    import { onMount } from 'svelte';
 
-    onMount(()=>{
-        ref.focus()
-    })
+    $itype='all'
+    $:get($itype)
 
     let items = []
     let page = 0
@@ -60,6 +61,7 @@
     let get = async function(){
         let tagString = JSON.stringify($itemTags)
         let url = `items?tags=${tagString}&visible=1&page=${page+1}`
+        if ($itype != 'all') url = url + '&itype=' + $itype
         let res = await api.get(url)
         items = res.items
         total = res.total
@@ -100,6 +102,16 @@
         </Column>
     </Row>
 {/if}
+
+<Row noGutter>
+    <Column>
+        <RadioButtonGroup bind:selected={$itype}>
+            <RadioButton labelText='All' value='all' />
+            <RadioButton labelText='Products' value='product' />
+            <RadioButton labelText='Services' value='service' />
+        </RadioButtonGroup>
+    </Column>
+</Row>
 
 {#each items as item}
     <br />

@@ -20,7 +20,19 @@
         Link,
         Row
     } from 'carbon-components-svelte'
+    import { stores } from '@sapper/app'
+    import { whose } from '../stores'
     import {marked} from 'utils'
+
+    let { session } = stores()
+
+    let change=()=>{
+        if($session.user.id==user.id){
+            $whose='my'
+        } else {
+            $whose='any'
+        }
+    }
 
     let about
     if (user.about) about = marked(user.about)
@@ -53,7 +65,7 @@
             <div><Link href={null} on:click={open}>Gallery</Link></div>
         {/if} -->
         {#if !user.items_empty}
-            <div><Link href='items/{user.id}'>Items</Link></div>
+            <div><Link on:click={change} href='items/{user.id}'>Items</Link></div>
         {/if}
     </Column>
 </Row>

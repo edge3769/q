@@ -23,8 +23,12 @@
     export let pages = 0
     export let user
     export let id
+
+    import { myItype, userItype, whose } from '../../stores'
     import {
+        RadioButtonGroup,
         PaginationNav,
+        RadioButton,
         Checkbox,
         Column,
         Search,
@@ -38,6 +42,31 @@
     onMount(()=>{
         ref.focus()
     })
+
+    let title
+    let itype='all'
+
+    $:get(itype)
+
+    function changeItype() {
+        if($whose && $whose=='my'){
+            $myItype=itype
+        } else {
+            $userItype=itype
+        }
+    }
+
+    $: changeItype(itype)
+
+    if ($whose && $whose=='my'){
+        title='My Items'
+    } else {
+        if(user.name){
+            title=`${user.name.split(' ')[0]}'s items`
+        }else{
+            title=`${user.username}'s items`
+        }
+    }
 
     let page = 0
 
@@ -82,6 +111,7 @@
     let get = async function(){
         let tagString = JSON.stringify(tags)
         let url = `items?visible=${visible}&id=${id}&tags=${tagString}&page=${page+1}`
+        if (itype != 'all') url = url + '&itype=' + itype
         let res = await api.get(url)
         items = res.items
         total = res.total
@@ -93,7 +123,7 @@
 <svelte:window on:keydown={keydown} />
 
 <svelte:head>
-    <title>Marketlinks</title>
+    <title>{title}</title>
 </svelte:head>
 
 <Row noGutter>
@@ -103,6 +133,16 @@
             bind:value={tag}
             bind:ref
         />
+    </Column>
+</Row>
+
+<Row noGutter>
+    <Column>
+        <RadioButtonGroup bind:selected={itype}>
+            <RadioButton labelText='All' value='all' />
+            <RadioButton labelText='Products' value='product' />
+            <RadioButton labelText='Services' value='service' />
+        </RadioButtonGroup>
     </Column>
 </Row>
 

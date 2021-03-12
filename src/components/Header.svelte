@@ -1,7 +1,7 @@
 <script>
   import { post } from 'utils.js'
   import { stores, goto } from '@sapper/app'
-  import { logged } from '../stores.js'
+  import { whose, logged } from '../stores.js'
   import {
     SkipToContent,
     SideNavItems,
@@ -18,7 +18,11 @@
 
   let isSideNavOpen = false
 
-  let exit = async function() {
+  let change=()=>{
+    $whose = 'my'
+  }
+
+  let exit = async()=>{
     await post(`auth/exit`)
     delete $session.user
     $logged=false
@@ -45,7 +49,7 @@
     {#if $session.user && $logged}
       <!-- <SideNavLink href='add_event' text='Add Event'/> -->
       <SideNavLink href='add_item' text='Add Item'/>
-      <SideNavLink href='items/{$session.user.id}' text='My Items'/>
+      <SideNavLink on:click={change} href='items/{$session.user.id}' text='My Items'/>
       <SideNavLink href='edit' text='Edit'/>
       <SideNavLink text='Exit' href='' on:click={exit} />
     {/if}

@@ -25,6 +25,7 @@
     } from 'carbon-components-svelte'
     import { goto } from '@sapper/app'
     import * as api from 'api'
+import { get } from 'svelte/store';
 
     let name
     let price
@@ -107,7 +108,7 @@
 
 <Row noGutter>
     <Column>
-        <RadioButtonGroup selected={itype}>
+        <RadioButtonGroup bind:selected={itype}>
             <RadioButton labelText='Product' value='product' />
             <RadioButton labelText='Service' value='service' />
         </RadioButtonGroup>

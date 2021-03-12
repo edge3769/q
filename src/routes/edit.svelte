@@ -5,7 +5,6 @@
             this.redirect(302, 'enter')
         }
         user = await api.get(`user/${user.id}`)
-        console.log(user)
         return {user}
     }
 </script>
@@ -120,7 +119,7 @@
 <svelte:window on:keydown={keydown} />
 
 <svelte:head>
-    <title>Edit Profile</title>
+    <title>Edit</title>
 </svelte:head>
 
 <Image bind:files bind:image />

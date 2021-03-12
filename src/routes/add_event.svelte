@@ -37,8 +37,6 @@
     let nameInvalid
     let itype = 'product'
 
-    $:console.log(typeof(start_date))
-
     let token = user.token
     let files = []
     let tags = []
@@ -103,7 +101,7 @@
 <svelte:window on:keydown={keydown} />
     
 <svelte:head>
-    <title>Add Item</title>
+    <title>Add Event</title>
 </svelte:head>
 
 <Image bind:image bind:files />

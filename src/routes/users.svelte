@@ -71,7 +71,7 @@
 <svelte:window on:keydown={keydown} />
 
 <svelte:head>
-    <title>Marketlinks</title>
+    <title>Users</title>
 </svelte:head>
 
 <Row noGutter>

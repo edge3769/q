@@ -49,7 +49,6 @@
         passwordError = r.passwordError
         usernameInvalid = r.usernameInvalid
         passwordInvalid = r.passwordInvalid
-        console.log(r.user)
         if (r.user) {
             $session.user = r.user
             $logged = true

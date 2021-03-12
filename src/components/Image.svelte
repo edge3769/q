@@ -2,7 +2,7 @@
     export let image
     export let files
 
-    import {placeholder} from '../placeholder.js'
+    import {placeholder} from 'placeholder'
 
     import {
         Row,

@@ -58,11 +58,9 @@
     }
 
     let get = async function(){
-        console.log('get')
         let tagString = JSON.stringify($eventTags)
         let url = `events?tags=${tagString}&visible=1&page=${page+1}`
         let res = await api.get(url)
-        console.log(res)
         events = res.items
         total = res.total
         pages = res.pages
@@ -74,7 +72,7 @@
 <svelte:window on:keydown={keydown} />
 
 <svelte:head>
-    <title>Marketlinks</title>
+    <title>Events</title>
 </svelte:head>
 
 <Row noGutter>

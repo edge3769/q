@@ -20,7 +20,7 @@
         Link,
         Column,
     } from 'carbon-components-svelte'
-    import marked from 'marked'
+    import {marked} from 'utils'
     import { stores } from '@sapper/app'
     
     let { session } = stores()
@@ -31,13 +31,13 @@
     }
 </script>
 
-<Row noGutter>
+<Row  noGutter>
     <Column lg={2} sm={2} md={2} xlg={2}>
         <div style='width: 111px; height: 111px;'>
             <img width=100% height=100% alt='itemImage' src={item.image}>
         </div>
     </Column>
-    <Column style='float: left'>
+    <Column lg={4} sm={4} md={4} xlg={4}>
         {#if item.name}
             <h2>{item.name}</h2>
         {/if}
@@ -64,7 +64,7 @@
 
 {#if description}
     <Row noGutter>
-        <Column>
+        <Column lg={2} sm={2} md={2} xlg={2}>
             <p>{@html description}</p>
         </Column>
     </Row>

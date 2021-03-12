@@ -6,7 +6,7 @@
         if (user == '404')(
             this.error(404, 'User not Found')
         )
-        if (user == '423')(
+        if (!user.visible)(
             this.error(423, 'User not visible')
         )
         return {user}
@@ -20,18 +20,11 @@
         Link,
         Row
     } from 'carbon-components-svelte'
-    import Img from '../components/Img.svelte'
-    import marked from 'marked'
+    import {marked} from 'utils'
 
     let about
     if (user.about) about = marked(user.about)
-    let open
 </script>
-
-<Img
-    bind:open
-    urls={user.images || []}
-/>
 
 <Row>
     <Column lg={2} sm={2} md={2} xlg={2}>
@@ -39,7 +32,7 @@
             <img style='width: 100%; height: 100%' width=100 height=100 alt='userImage' src={user.image}>
         </div>
     </Column>
-    <Column>
+    <Column lg={4} sm={4} md={4} xlg={4}>
         <h2>{user.name}</h2>
         {#if user.username}
             <p>{user.username}</p>
@@ -66,7 +59,7 @@
 </Row>
 
 <Row>
-    <Column>
+    <Column lg={6} sm={6} md={6} xlg={6}>
         {#if about}
             <p>{@html about}</p>
         {/if}

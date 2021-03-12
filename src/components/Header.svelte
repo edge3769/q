@@ -40,10 +40,10 @@
 
 <SideNav bind:isOpen={isSideNavOpen}>
   <SideNavItems>
-    <SideNavLink href='events' text='Events'/>
     <SideNavLink href='users' text='Users'/>
+    <!-- <SideNavLink href='events' text='Events'/> -->
     {#if $session.user && $logged}
-      <SideNavLink href='add_event' text='Add Event'/>
+      <!-- <SideNavLink href='add_event' text='Add Event'/> -->
       <SideNavLink href='add_item' text='Add Item'/>
       <SideNavLink href='items/{$session.user.id}' text='My Items'/>
       <SideNavLink href='edit' text='Edit'/>

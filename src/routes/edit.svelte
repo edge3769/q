@@ -4,7 +4,8 @@
         if (!user){
             this.redirect(302, 'enter')
         }
-        user = await api.get(`user/${user.id}`)
+        user = await api.get(`users/${user.id}`)
+        console.log(user)
         return {user}
     }
 </script>
@@ -20,12 +21,13 @@
         Button,
         Column,
         Row,
-        Tag
     } from 'carbon-components-svelte'
     import Input from '../components/Input/Input.svelte'
     import Image from '../components/Image.svelte'
+    import Tag from '../components/Tag.svelte'
 
     let { session } = stores();
+    console.log(user.email)
 
     let username = user.username
     let visible = user.visible
@@ -33,31 +35,25 @@
     let website = user.website
     let images = user.images
     let image = user.image
-    let tags = user.tags
     let email = user.email
     let phone = user.phone
     let about = user.about
     let token = user.token
     let name = user.name
+    let tags = user.tags
+
+    $:console.log(email)
 
     let usernameInvalid
     let usernameError
     let files = []
     let current
-    let open
     let tag
     let ref
 
     // images.forEach(i=>{
     //     files = [...files, {url:i, name:'null', ref:null, status:'complete'}]
     // })
-
-    $: if (username === '') {
-        usernameInvalid=true
-        usernameError='No username'
-    } else {
-        usernameInvalid=false
-    }
 
     let clear = () => {
         open=false
@@ -91,10 +87,9 @@
 
     let edit = async () => {
         images = []
-        files.map(f=>{
-            images.push(f.url)
+        files.forEach(f=>{
+            images = [...images, f.url]
         })
-        images = images
         let data = {
             username,
             visible,
@@ -111,7 +106,7 @@
         let res = await api.put('users', data, token)
         if (res.id) {
             $session.user = res;
-            goto('/')
+            goto(`${res.username}`)
         }
     }
 </script>
@@ -130,32 +125,7 @@
     </Column>
 </Row>
 
-<Row noGutter>
-    <Column noGutter>
-        <TextInput
-            on:focus={() => {open=true; current=ref}}
-            placeholder='Add tag'
-            bind:value={tag}
-            bind:ref
-        />
-    </Column>
-</Row>
-
-{#if open}
-    <Row noGutter>
-        <Column>
-            <Tag
-                on:click={clear}
-                type='magenta'
-            >
-                Clear
-            </Tag>
-            {#each tags as tag}
-                <Tag filter on:click={delTag(tag)}>{tag}</Tag>
-            {/each}
-        </Column>
-    </Row>
-{/if}
+<Tag bind:tags />
     
 <Row noGutter>
     <Column>
@@ -167,21 +137,13 @@
                 bind:value={username}
                 labelText="Username"
             />
-            <TextInput
-                labelText="Email"
-                bind:value={email}
-            />
+            <TextInput labelText="Email" bind:value={email} />
             <TextInput labelText="Name" bind:value={name} />
             <TextInput labelText="Phone" bind:value={phone} />
             <TextInput labelText="Address" bind:value={address} />
             <TextInput labelText="Website" bind:value={website} />
-        </FluidForm>
-    </Column>
-</Row>
-    
-<Row noGutter>
-    <Column>
-        <TextArea labelText='About(Markdown)' bind:value={about} />
+            <TextArea placeholder='Markdown' labelText='About(Markdown)' bind:value={about} />
+    </FluidForm>
     </Column>
 </Row>
     

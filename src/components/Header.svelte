@@ -1,28 +1,88 @@
+<svelte:window on:appinstalled={installed} on:beforeinstallprompt={before} />
+
 <script>
+  import * as api from 'api'
+  import url8 from 'url8'
   import { post } from 'utils.js'
   import { stores, goto } from '@sapper/app'
-  import { whose, logged } from '../stores.js'
+  import SideNavLink from './SideNavLink.svelte'
+  import { isSideNavOpen, logged } from '../stores.js'
   import {
     SkipToContent,
     SideNavItems,
-    SideNavLink,
     SideNav,
     Header
   } from "carbon-components-svelte"
 
-  let { session } = stores()
+  let show
+  let installRef
+  let installPrompt
+  $isSideNavOpen = false
+
+  const { session } = stores()
+
+  const installed=()=>{
+    show=false
+  }
+
+  const before=(e)=>{
+    show=true
+    e.preventDefault()
+    installPrompt = e
+  }
+
+  const install=()=>{
+        installPrompt.prompt()
+        installPrompt.userChoice.then((choice)=>{
+          if(choice.outcome === 'accepted'){
+            show = false
+          }
+        })
+  }
 
   if ($session.user){
     $logged = true
   }
 
-  let isSideNavOpen = false
-
-  let change=()=>{
-    $whose = 'my'
+  const prompt=()=>{
+    window.addEventListener('beforeInstallPrompt', (e)=>{
+      e.preventDefault()
+      deferredPrompt = e
+      deferredPrompt.prompt()
+    })
   }
 
-  let exit = async()=>{
+  const getSub=()=>{
+    navigator.serviceWorker.ready
+    .then((registration)=>{
+      return registration.pushManager.getSubscription()
+      .then(async(sub)=>{
+        if (sub){
+          return sub
+        }
+
+        const response = await fetch(`get`)
+        const vapidKey = await response.text()
+        let int8VapidKey = url8(vapidKey)
+        const options = {
+          userVisibleOnly: true,
+          applicationServerKey: int8VapidKey
+        }
+        return registration.pushManager.subscribe(options)
+      })
+    }).then((sub)=>{
+      console.log(sub)
+      api.post('subs', {id: $session.user.id, sub: sub})
+    })
+  }  
+
+  // if(typeof window != 'undefined'){
+  //   if(navigator && navigator.serviceWorker && $session.user){
+  //     getSub()  
+  //   }
+  // }
+
+  const exit = async()=>{
     await post(`auth/exit`)
     delete $session.user
     $logged=false
@@ -32,9 +92,9 @@
 
 <Header 
   persistentHamburgerMenu={true}
-  company="Marketlinks"
+  company="Apexlinks"
   platFormName=''
-  bind:isSideNavOpen
+  bind:isSideNavOpen={$isSideNavOpen}
   href='/'
 >
   <div slot="skip-to-content">
@@ -42,14 +102,14 @@
   </div>
 </Header>
 
-<SideNav bind:isOpen={isSideNavOpen}>
+<SideNav bind:isOpen={$isSideNavOpen}>
   <SideNavItems>
-    <SideNavLink href='users' text='Users'/>
-    <!-- <SideNavLink href='events' text='Events'/> -->
     {#if $session.user && $logged}
-      <!-- <SideNavLink href='add_event' text='Add Event'/> -->
+      {#if show}
+        <SideNavLink bind:ref={installRef} on:click={install} href='' text='Add To Homescreen'/>
+      {/if}
       <SideNavLink href='add_item' text='Add Item'/>
-      <SideNavLink on:click={change} href='items/{$session.user.id}' text='My Items'/>
+      <SideNavLink href='items/{$session.user.id}' text='My Items'/>
       <SideNavLink href='edit' text='Edit'/>
       <SideNavLink text='Exit' href='' on:click={exit} />
     {/if}

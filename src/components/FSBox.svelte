@@ -5,20 +5,20 @@
     export let url
     let ref
 
-    let dispatch = createEventDispatcher()
+    const dispatch = createEventDispatcher()
 
     $: if (ref && url){
         ref.src = url
     }
     $: if (open) fill()
 
-    let keydown = (e) => {
+    const keydown = (e) => {
         if (e.key === 'Escape'){
             close()
         }
     }
 
-    let wheel = (e) => {
+    const wheel = (e) => {
         if (e.deltaX < 0){
             dispatch('down')
         } else if (e.deltaX > 0){

@@ -10,44 +10,38 @@
 <script>
     export let user
     import Image from '../components/Image.svelte'
+    import Tag from '../components/Tag.svelte'
     import Input from '../components/Input/Input.svelte'
     import {
-        Tag,
         Row,
         Button,
         Column,
+        Checkbox,
         TextArea,
         TextInput,
         ButtonSet,
         FluidForm,
-        RadioButton,
-        RadioButtonGroup
     } from 'carbon-components-svelte'
     import { goto } from '@sapper/app'
     import * as api from 'api'
-import { get } from 'svelte/store';
 
+    let nameInvalid
+
+    let link
     let name
     let price
-    let description
-    let nameInvalid
-    let itype = 'product'
+    let itext
+    let itype
+    let redirect
 
     let token = user.token
     let files = []
     let tags = []
     let current
     let image
-    let desc
     let open
     let tag
     let ref
-
-    $: if (!open) {
-        desc='Show Tags'
-    } else {
-        desc='Hide Tags'
-    }
 
     let clear = () => {
         tags = []
@@ -86,7 +80,7 @@ import { get } from 'svelte/store';
             price,
             itype,
             images,
-            description
+            itext
         }
         let res = await api.post('items', data, token)
         if (res.nameError) {
@@ -106,42 +100,7 @@ import { get } from 'svelte/store';
 
 <Image bind:image bind:files />
 
-<Row noGutter>
-    <Column>
-        <RadioButtonGroup bind:selected={itype}>
-            <RadioButton labelText='Product' value='product' />
-            <RadioButton labelText='Service' value='service' />
-        </RadioButtonGroup>
-    </Column>
-</Row>
-
-<Row noGutter>
-    <Column noGutter>
-        <TextInput
-            on:blur={addTag}
-            on:focus={() => (current=ref)}
-            placeholder='Add tag'
-            bind:value={tag}
-            bind:ref
-        />
-    </Column>
-</Row>
-
-{#if open}
-    <Row noGutter>
-        <Column>
-            <Tag
-                on:click={clear}
-                type='magenta'
-            >
-                Clear
-            </Tag>
-            {#each tags as tag}
-                <Tag filter on:click={delTag(tag)}>{tag}</Tag>
-            {/each}
-        </Column>
-    </Row>
-{/if}
+<Tag bind:tags />
 
 <Row noGutter>
     <Column>
@@ -152,9 +111,14 @@ import { get } from 'svelte/store';
                 labelText="Name"
                 bind:value={name} 
             />
-            <TextInput labelText="Price" bind:value={price} />
+            <TextInput labelText="Item Type" bind:value={itype} />
+            <Checkbox bind:checked={redirect} 
+                labelText="Let the item's listing redirect to a link" />
+            {#if redirect}
+                <TextInput labelText="Link" bind:value={link} />
+            {/if}
+            <TextArea labelText="Text(markdown)" bind:value={itext} />
         </FluidForm>
-            <TextArea labelText="Description" bind:value={description} />
     </Column>
 </Row>
 

@@ -5,11 +5,11 @@
 
     let url = urls[0]
 
-    let up = () => {
+    const up = () => {
         url = urls[urls.indexOf(url)+1]
     }
 
-    let down = () => {
+    const down = () => {
         url = urls[urls.indexOf(url)-1]
     }
 </script>

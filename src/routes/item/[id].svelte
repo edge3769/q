@@ -25,23 +25,27 @@
     
     let { session } = stores()
 
-    let description
-    if (item.description){
-        description = marked(item.description)
+    let itext
+    if (item.itext){
+        itext = marked(item.itext)
     }
 </script>
 
 <Row  noGutter>
-    <Column lg={2} sm={2} md={2} xlg={2}>
-        <div style='width: 111px; height: 111px;'>
-            <img width=100% height=100% alt='itemImage' src={item.image}>
-        </div>
-    </Column>
+    {#if item.image}
+        <Column lg={2} sm={2} md={2} xlg={2}>
+            <div style='width: 111px; height: 111px;'>
+                <img width=100% height=100% alt='itemImage' src={item.image}>
+            </div>
+        </Column>
+    {/if}
     <Column lg={4} sm={4} md={4} xlg={4}>
         {#if item.name}
             <h2>{item.name}</h2>
         {/if}
-        <p>{item.itype}</p>
+        {#if item.itype}
+            <p>{item.itype}</p>
+        {/if}
         {#if item.address}
             <p>{item.address}</p>
         {/if}
@@ -62,10 +66,12 @@
     </Column>
 </Row>
 
-{#if description}
+<br />
+
+{#if itext}
     <Row noGutter>
         <Column lg={2} sm={2} md={2} xlg={2}>
-            <p>{@html description}</p>
+            <p>{@html itext}</p>
         </Column>
     </Row>
 {/if}

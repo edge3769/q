@@ -2,8 +2,6 @@
     export let image
     export let files
 
-    import {placeholder} from 'placeholder'
-
     import {
         Row,
         Column,
@@ -16,49 +14,55 @@
     import Delete16 from 'carbon-icons-svelte/lib/Delete16'
 
     let file = {}
+    let isImgErr
     let imagesRef
     let imageRef
     let imgRef
+    let labelText
     let open
 
-    $: if (!image){
-        image = placeholder
+    $: if(!image){
+        labelText = 'Add Image'
+    } else {
+        labelText = 'Change Image'
     }
 
-    $: if (imgRef) imgRef.src = image
+    $: if(imgRef) {
+        imgRef.src = image
+    }
 
-    let openGallery = (f) => {
+    const openGallery = (f) => {
         file = f
         open = true
         f.ref.scrollIntoView()
     }
 
-    let imagesNext = () => {
+    const imagesNext = () => {
         file = files[files.indexOf(file)+1]
         file.ref.scrollIntoView()
     }
 
-    let imagesPrev = () => {
+    const imagesPrev = () => {
         file = files[files.indexOf(file)-1]
         file.ref.scrollIntoView()
     }
 
-    let delFile = (file) => {
+    const delFile = (file) => {
         files = files.filter(f => f != file)
     }
 
-    let imageChange = () => {
-        let i = imageRef.files[0]
+    const imageChange = () => {
+        let file = imageRef.files[0]
         var reader = new FileReader()
-        reader.onload = (e) => {
+        reader.onload=(e)=>{
             image = e.target.result
         }
-        if (i){
-            reader.readAsDataURL(i)
+        if (file){
+            reader.readAsDataURL(file)
         }
     }
 
-    let imagesChange = (e) => {
+    const imagesChange = (e) => {
         let prevLength = files.length
         let x = imagesRef.files
         for (let i=0; i<x.length; i++){
@@ -89,17 +93,23 @@
     bind:open
 />
 
-<Row noGutter>
-    <Column>
-        <img
-            style='width: 137px;'
-            width=100% heigth=100%
-            alt='display'
-            src=''
-            bind:this={imgRef}
-        >
-    </Column>
-</Row>
+{#if isImgErr}
+    <p>Image Error</p>
+{/if}
+
+{#if !isImgErr && image}
+    <Row noGutter>
+        <Column>
+            <img
+                style='width: 137px;'
+                width=100% heigth=100%
+                alt='display'
+                src=''
+                bind:this={imgRef}
+            >
+        </Column>
+    </Row>
+{/if}
 
 <Row noGutter>
     <Column>
@@ -108,7 +118,7 @@
                 disableLabelChanges 
                 on:change={imageChange} 
                 bind:ref={imageRef} 
-                labelText='Change image'
+                labelText={labelText}
             />
             <!-- <FileUploaderButton
                 labelText='Add to images' 

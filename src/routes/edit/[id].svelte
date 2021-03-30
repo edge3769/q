@@ -14,8 +14,6 @@
     export let item, user
     import { goto } from '@sapper/app'
     import {
-        RadioButtonGroup,
-        RadioButton,
         FluidForm,
         ButtonSet,
         TextInput,
@@ -25,14 +23,14 @@
         Button,
         Modal,
         Row,
-        Tag
     } from 'carbon-components-svelte'
+    import Tag from '../../components/Tag.svelte'
     import Image from '../../components/Image.svelte'
     import Input from '../../components/Input/Input.svelte'
 
     let nameInvalid
 
-    let description = item.description
+    let itext = item.itext
     let visible = item.visible
     let images = item.images
     let price = item.price
@@ -41,12 +39,8 @@
     let name = item.name
     let tags = item.tags
     let files = []
-    let current
     let delOpen
     let file
-    let open
-    let ref
-    let tag
 
     if (images){
         for (file of images){
@@ -54,30 +48,13 @@
         }
     }
 
-    let clear = () => {
-        tags = []
-        open = false
-    }
-
     let keydown = (e) => {
         switch(e.keyCode){
             case 13:
-                if (current==ref){
-                    addTag()
+                if (e.ctrlKey){
+                    edit()
                 }
         }
-    }
-
-    let addTag = () => {
-        if (tag != '' && !tags.includes(tag)){
-            tags = [...tags, tag]
-            open=true
-            tag=''
-        }
-    }
-
-    let delTag = (tag) => {
-        tags = tags.filter(t => t != tag)
     }
 
     let del = async function(){
@@ -92,7 +69,7 @@
             f = f.file
         })
         let data = {
-            description,
+            itext,
             id: item.id,
             images,
             image,
@@ -107,7 +84,7 @@
             nameInvalid = true
         }
         if (res.id){
-            goto(`item/${item.id}`)
+            goto(`item/${res.id}`)
         }
     }
 </script>
@@ -137,41 +114,7 @@
     </Column>
 </Row>
 
-<Row noGutter>
-    <Column>
-        <RadioButtonGroup bind:selected={itype}>
-            <RadioButton labelText='Product' value='product' />
-            <RadioButton labelText='Service' value='service' />
-        </RadioButtonGroup>
-    </Column>
-</Row>
-
-<Row noGutter>
-    <Column noGutter>
-        <TextInput
-            on:focus={() => {open=true;current=ref}}
-            placeholder='Add tag'
-            bind:value={tag}
-            bind:ref
-        />
-    </Column>
-</Row>
-
-{#if open}
-    <Row noGutter>
-        <Column>
-            <Tag
-                on:click={clear}
-                type='magenta'
-            >
-                Clear
-            </Tag>
-            {#each tags as tag}
-                <Tag filter on:click={delTag(tag)}>{tag}</Tag>
-            {/each}
-        </Column>
-    </Row>
-{/if}
+<Tag bind:tags />
 
 <Row noGutter>
     <Column>
@@ -182,9 +125,9 @@
                 bind:invalid={nameInvalid}
                 invalidText='Name taken'
             />
-            <TextInput labelText="Price" bind:value={price} />
+            <TextInput labelText="Type" bind:value={itype} />
         </FluidForm>
-            <TextArea labelText="Description" bind:value={description} />
+            <TextArea labelText="Text" bind:value={itext} />
     </Column>
 </Row>
 

@@ -75,7 +75,7 @@
       api.post('subs', {id: $session.user.id, sub: sub})
     })
   }  
-
+2057577094 - UBA
   // if(typeof window != 'undefined'){
   //   if(navigator && navigator.serviceWorker && $session.user){
   //     getSub()  

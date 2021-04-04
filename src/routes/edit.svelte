@@ -125,7 +125,7 @@
     </Column>
 </Row>
 
-<Tag bind:tags />
+<Tag placeholder={tags.length > 0 ? `${tags.length} tags` : 'Add tag'} bind:tags />
     
 <Row noGutter>
     <Column>

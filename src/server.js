@@ -1,11 +1,11 @@
 import * as api from './node_modules/api'
 import terminate from './node_modules/terminate'
+import redirect from './node_modules/redirect'
 
 import 'dotenv/config'
 import io from 'socket.io';
 import sirv from "sirv";
 import polka from "polka";
-import redirect from "@polka/redirect"
 import http from 'http'
 import compression from "compression";
 import * as sapper from "@sapper/server";
@@ -32,7 +32,7 @@ process.on('SIGINT', exitHandler(0, 'SIGINT'))
 
 
 function httpsRedirect(req, res, next){
-  if(req.headers['X-Forwarded-Proto'] == 'http'){
+  if(!req.headers['Redirect']){
     redirect(res, 301, `https://${req.headers.host}${req.url}`)
   }
   next()

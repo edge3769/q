@@ -32,7 +32,9 @@ process.on('SIGINT', exitHandler(0, 'SIGINT'))
 
 
 function httpsRedirect(req, res, next){
-  redirect(res, 301, `https://${req.headers.host}${req.url}`)
+  if(req.headers['X-Forwarded-Proto'] == 'http'){
+    redirect(res, 301, `https://${req.headers.host}${req.url}`)
+  }
   next()
 }
 

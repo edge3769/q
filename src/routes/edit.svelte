@@ -2,7 +2,7 @@
     import * as api from 'api.js';
     export async function preload({params}, { user }) {
         if (!user){
-            this.redirect(302, 'enter')
+            this.redirect(302, 'login')
         }
         user = await api.get(`users/${user.id}`)
         console.log(user)

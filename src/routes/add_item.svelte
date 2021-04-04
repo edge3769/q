@@ -1,7 +1,7 @@
 <script context="module">
     export async function preload({ path }, { user }) {
         if (!user) {
-            this.redirect(302, `enter`);
+            this.redirect(302, `login`);
         }
         return { user }
     }

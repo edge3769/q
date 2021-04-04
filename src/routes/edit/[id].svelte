@@ -2,7 +2,7 @@
     import * as api from 'api'
     export async function preload({params}, {user}){
         if (!user){
-            this.redirect(302, 'enter')
+            this.redirect(302, 'login')
         }
         let {id} = params
         let item = await api.get(`items/${id}`)

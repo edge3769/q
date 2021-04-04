@@ -115,7 +115,7 @@
 <svelte:window on:keydown={keydown} />
 
 <svelte:head>
-    <title>Enter</title>
+    <title>Login</title>
 </svelte:head>
 
 <Row noGutter>

@@ -86,7 +86,7 @@
     await post(`auth/exit`)
     delete $session.user
     $logged=false
-    goto('enter')
+    goto('login')
   }
 </script>
 
@@ -114,7 +114,7 @@
       <SideNavLink text='Exit' href='' on:click={exit} />
     {/if}
     {#if !$session.user || !$logged}
-      <SideNavLink text='Enter' href='enter'/>
+      <SideNavLink text='Login' href='login'/>
     {/if}
   </SideNavItems>
 </SideNav>

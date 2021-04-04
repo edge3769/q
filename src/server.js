@@ -5,6 +5,7 @@ import 'dotenv/config'
 import io from 'socket.io';
 import sirv from "sirv";
 import polka from "polka";
+import redirect from '@polka/redirect';
 import http from 'http'
 import compression from "compression";
 import * as sapper from "@sapper/server";
@@ -32,13 +33,9 @@ process.on('SIGINT', exitHandler(0, 'SIGINT'))
 
 
 function httpsRedirect(req, res, next){
-  var redirect = url.parse(`http://${req.headers.host}${req.url}`, true).query.r
-  if(!redirect){
-    res.writeHead(302, {
-      'Location': `https://${req.headers.host}${req.url}?r=q`,
-      'Content-Length': 0
-    })
-    res.end()
+  var re = url.parse(`http://${req.headers.host}${req.url}`, true).query.r
+  if(!re){
+    redirect(res, 301, `https://${req.headers.host}${req.url}?r=q`)
   }
   next()
 }

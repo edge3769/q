@@ -32,10 +32,7 @@ process.on('SIGINT', exitHandler(0, 'SIGINT'))
 
 
 function httpsRedirect(req, res, next){
-  // console.log(req.headers['x-forwarded-proto'])
-  if(!req.headers['x-forwarded-proto'] === 'https' && !process.env.NODE_ENV === 'development'){
-    redirect(res, 301, `https://${req.headers.host}${req.url}`)
-  }
+  redirect(res, 301, `https://${req.headers.host}${req.url}`)
   next()
 }
 

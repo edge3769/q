@@ -17,12 +17,8 @@ const fetch = require('node-fetch')
 const webPush = require('web-push')
 
 const FileStore = sessionFileStore(session);
-const { PORT, NODE_ENV, VAPID_PUBLIC, VAPID_PRIVATE } = process.env;
+const { PORT, NODE_ENV} = process.env;
 const server = http.createServer()
-
-const wp = new Promise((resolve, reject) => {
-
-})
 
 const exitHandler = terminate(server, {
   coredump: false,

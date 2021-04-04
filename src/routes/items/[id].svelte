@@ -1,11 +1,11 @@
 <script context='module'>
-    export async function preload({params}, {user}){
+    export async function preload({params}, {}){
         let items = []
         let total = 0
         let pages = 0
         let {id} = params
         let tagString = JSON.stringify([])
-        let theUser = await api.get(`users/${id}`)
+        let user = await api.get(`users/${id}`)
         let url = `items?id=${id}&tags=${tagString}&page=1`
         let res = await api.get(url)
         if (res == '404'){
@@ -19,7 +19,7 @@
             total = res.total
             pages = res.pages
         }
-        return {items, total, pages, theUser, user, id}
+        return {items, total, pages, user, id}
     }
 </script>
 
@@ -27,7 +27,7 @@
     export let items = []
     export let total = 0
     export let pages = 0
-    export let theUser, user
+    export let user
     export let id
 
     import {
@@ -43,41 +43,10 @@
     let page = 0
 
     let visible = true
-    let current
     let tags=[]
     let got
-    let tag
-    let ref
 
     $: get(visible)
-
-    const keydown = (e) => {
-        switch(e.keyCode){
-            case 13:
-                if (current==ref){
-                    addTag()
-                    get()
-                }
-        }
-    }
-
-    const addTag = () => {
-        if (tag != '' && !tags.includes(tag)){
-            tags = [...tags, tag]
-            open=true
-            tag = ''
-        }
-    }
-
-    const delTag = (tag) => {
-        tags=tags.filter(t => t != tag)
-        get()
-    }
-
-    const clear = () => {
-        tags = []
-        open = false
-    }
 
     const get = async function(){
         let tagString = JSON.stringify(tags)
@@ -92,10 +61,8 @@
     }
 </script>
 
-<svelte:window on:keydown={keydown} />
-
 <svelte:head>
-    <title>{`${theUser.username.split(' ')[0]}'s items`}</title>
+    <title>{`${user.username.split(' ')[0]}'s items`}</title>
 </svelte:head>
 
 <Tag on:change={get} placeholder='Search' bind:tags />
@@ -126,9 +93,9 @@
 {/each}
 
 {#if got && total < 1}
-<Row noGutter>
-    <p>There don't seem to be any results</p>
-</Row>
+    <Row noGutter>
+        <p>There doesn't seem to be any results</p>
+    </Row>
 {/if}
 
 {#if total>10}

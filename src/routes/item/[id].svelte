@@ -70,7 +70,7 @@
 
 {#if itext}
     <Row noGutter>
-        <Column lg={2} sm={2} md={2} xlg={2}>
+        <Column lg={6} sm={6} md={6} xlg={6}>
             <p>{@html itext}</p>
         </Column>
     </Row>

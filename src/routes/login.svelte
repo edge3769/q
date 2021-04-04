@@ -74,7 +74,7 @@
             $session.user = r.user
             $logged = true
             $isSideNavOpen = true
-            goto('/')
+            goto('edit')
         }
     }
 

@@ -1,6 +1,5 @@
 import * as api from './node_modules/api'
 import terminate from './node_modules/terminate'
-import redirect from './node_modules/redirect'
 
 import 'dotenv/config'
 import io from 'socket.io';
@@ -15,6 +14,7 @@ import sessionFileStore from 'session-file-store';
 
 const fetch = require('node-fetch')
 const webPush = require('web-push')
+const url = require('url')
 
 const FileStore = sessionFileStore(session);
 const { PORT, NODE_ENV} = process.env;
@@ -32,8 +32,13 @@ process.on('SIGINT', exitHandler(0, 'SIGINT'))
 
 
 function httpsRedirect(req, res, next){
-  if(!req.headers['Redirect']){
-    redirect(res, 301, `https://${req.headers.host}${req.url}`)
+  var redirect = url.parse(`http://${req.headers.host}${req.url}`, true).query.r
+  if(!redirect){
+    res.writeHead(302, {
+      'Location': `https://${req.headers.host}${req.url}?r=q`,
+      'Content-Length': 0
+    })
+    res.end()
   }
   next()
 }

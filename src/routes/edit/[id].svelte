@@ -24,9 +24,12 @@
         Modal,
         Row,
     } from 'carbon-components-svelte'
+    import {initialCaps} from 'utils'
     import Tag from '../../components/Tag.svelte'
     import Image from '../../components/Image.svelte'
     import Input from '../../components/Input/Input.svelte'
+
+    $: itype = initialCaps(itype)
 
     let nameInvalid
 

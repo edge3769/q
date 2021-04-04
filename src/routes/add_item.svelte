@@ -9,6 +9,7 @@
 
 <script>
     export let user
+    import {initialCaps} from 'utils'
     import Image from '../components/Image.svelte'
     import Tag from '../components/Tag.svelte'
     import Input from '../components/Input/Input.svelte'
@@ -43,10 +44,7 @@
     let tag
     let ref
 
-    let clear = () => {
-        tags = []
-        open = false
-    }
+    $: itype = initialCaps(itype)
 
     let keydown = (e) => {
         switch(e.keyCode){

@@ -35,6 +35,9 @@ process.on('SIGINT', exitHandler(0, 'SIGINT'))
 function httpsRedirect(req, res, next){
   var re = url.parse(`http://${req.headers.host}${req.url}`, true).query.r
   if(!re){
+    if(process.env.NODE_ENV == 'development'){
+      redirect(res, 301, `http://${req.headers.host}${req.url}?r=q`)
+    }
     redirect(res, 301, `https://${req.headers.host}${req.url}?r=q`)
   }
   next()
@@ -54,7 +57,8 @@ global.fetch = (url, opts) => {
 }
 
 polka({server})
-  .use(httpsRedirect, bodyParser.json())
+  .use(bodyParser.json())
+  .use(httpsRedirect)
   .get('/get', (req, res)=>{
     if(!process.env.VAPID_PUBLIC || !process.env.VAPID_PRIVATE){
       res.sendStatus(500)
@@ -95,6 +99,28 @@ polka({server})
         })
     })
   )
+  .post('/auth/exit', (req, res)=>{
+    api.del(`tokens?id=${req.session.user.id}`, req.session.user.token)
+    delete req.session.user
+    res.end(JSON.stringify({ ok: true }))
+  })
+  .post('/auth/login', (req, res)=>{
+    console.log(req.url)
+    const { username, password } = req.body
+    api.post('tokens', { username, password }).then(response => {
+        if (response.user) req.session.user = response.user;
+        res.setHeader('Content-Type', 'application/json')
+        res.end(JSON.stringify(response))
+    })
+  })
+  .post('/auth/join', (req, res)=>{
+    const { username, password } = req.body
+    api.post('users', { username, password }).then(response => {
+        if (response.user) req.session.user = response.user
+        res.setHeader('Content-Type', 'application/json')
+        res.end(JSON.stringify(response))
+    })
+  })
   .listen(PORT)
 
 io(server).on('connection', (socket)=>{

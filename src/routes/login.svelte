@@ -94,7 +94,7 @@
         }
         usernameInvalid=false
         passwordInvalid=false
-        let r = await post(`auth/login`, { username, password })
+        let r = await post('auth/login', { username, password })
             .then((r)=>{
                 loginLoading=false
                 return r

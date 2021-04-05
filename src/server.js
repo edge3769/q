@@ -15,6 +15,7 @@ import sessionFileStore from 'session-file-store';
 
 const fetch = require('node-fetch')
 const webPush = require('web-push')
+const url = require('url')
 
 const FileStore = sessionFileStore(session);
 const { PORT, NODE_ENV} = process.env;
@@ -33,7 +34,7 @@ process.on('SIGINT', exitHandler(0, 'SIGINT'))
 
 function httpsRedirect(req, res, next){
   var re = url.parse(`http://${req.headers.host}${req.url}`, true).query.r
-  if(!re){
+  if(!re && req.url == '/'){
     if(process.env.NODE_ENV == 'development'){
       redirect(res, 301, `http://${req.headers.host}${req.url}?r=q`)
     }
@@ -56,8 +57,7 @@ global.fetch = (url, opts) => {
 }
 
 polka({server})
-  .use(bodyParser.json())
-  .use(httpsRedirect)
+  .use(httpsRedirect, bodyParser.json())
   .get('/get', (req, res)=>{
     if(!process.env.VAPID_PUBLIC || !process.env.VAPID_PRIVATE){
       res.sendStatus(500)
@@ -98,28 +98,6 @@ polka({server})
         })
     })
   )
-  .post('/auth/exit', (req, res)=>{
-    api.del(`tokens?id=${req.session.user.id}`, req.session.user.token)
-    delete req.session.user
-    res.end(JSON.stringify({ ok: true }))
-  })
-  .post('/auth/login', (req, res)=>{
-    console.log(req.url)
-    const { username, password } = req.body
-    api.post('tokens', { username, password }).then(response => {
-        if (response.user) req.session.user = response.user;
-        res.setHeader('Content-Type', 'application/json')
-        res.end(JSON.stringify(response))
-    })
-  })
-  .post('/auth/join', (req, res)=>{
-    const { username, password } = req.body
-    api.post('users', { username, password }).then(response => {
-        if (response.user) req.session.user = response.user
-        res.setHeader('Content-Type', 'application/json')
-        res.end(JSON.stringify(response))
-    })
-  })
   .listen(PORT)
 
 io(server).on('connection', (socket)=>{

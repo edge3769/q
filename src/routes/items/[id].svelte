@@ -103,6 +103,9 @@
 {/if}
 
 <style>
+    .label {
+        padding-left: 0.5rem
+    }
     .item {
         display: flex;
         flex-direction: row;

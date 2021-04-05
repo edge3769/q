@@ -5,7 +5,6 @@
             this.redirect(302, 'login')
         }
         user = await api.get(`users/${user.id}`)
-        console.log(user)
         return {user}
     }
 </script>
@@ -27,7 +26,6 @@
     import Tag from '../components/Tag.svelte'
 
     let { session } = stores();
-    console.log(user.email)
 
     let username = user.username
     let visible = user.visible
@@ -41,8 +39,6 @@
     let token = user.token
     let name = user.name
     let tags = user.tags
-
-    $:console.log(email)
 
     let usernameInvalid
     let usernameError

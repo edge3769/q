@@ -71,7 +71,6 @@
         return registration.pushManager.subscribe(options)
       })
     }).then((sub)=>{
-      console.log(sub)
       api.post('subs', {id: $session.user.id, sub: sub})
     })
   }  

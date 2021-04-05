@@ -74,9 +74,6 @@
     </Row>
 {/each}
 
-<!--08168080932 - Whatsapp
-    08032146531 - Normal -->
-
 {#if got && total < 1}
     <Row noGutter>
         <Column>
@@ -94,6 +91,9 @@
 {/if}
 
 <style>
+    .label {
+        padding-left: 0.5rem
+    }
     .item {
         display: flex;
         flex-direction: row;

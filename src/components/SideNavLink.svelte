@@ -9,4 +9,4 @@
     }
 </script>
 
-<SideNavLink on:click on:click={click} bind:href bind:text />
+<SideNavLink {...$$restProps} on:click on:click={click} bind:href bind:text />

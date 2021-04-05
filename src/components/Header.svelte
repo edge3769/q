@@ -19,7 +19,9 @@
   let installPrompt
   $isSideNavOpen = false
 
-  const { session } = stores()
+  const { page, session } = stores()
+
+  $: console.log($page.path.split('/')[1])
 
   const installed=()=>{
     show=false
@@ -73,7 +75,8 @@
     }).then((sub)=>{
       api.post('subs', {id: $session.user.id, sub: sub})
     })
-  }  
+  }
+
   // if(typeof window != 'undefined'){
   //   if(navigator && navigator.serviceWorker && $session.user){
   //     getSub()  
@@ -106,13 +109,13 @@
       {#if show}
         <SideNavLink bind:ref={installRef} on:click={install} href='' text='Add To Homescreen'/>
       {/if}
-      <SideNavLink href='add_item' text='Add Item'/>
-      <SideNavLink href='items/{$session.user.id}' text='My Items'/>
-      <SideNavLink href='edit' text='Edit'/>
+      <SideNavLink isSelected={$page.path.split('/')[1] == 'add_item' ? true : false} href='add_item' text='Add Item'/>
+      <SideNavLink isSelected={$page.path.split('/')[1] == 'items' ? true : false}  href='items/{$session.user.id}' text='My Items'/>
+      <SideNavLink isSelected={$page.path.split('/')[1] == 'edit' ? true : false}  href='edit' text='Edit'/>
       <SideNavLink text='Exit' href='' on:click={exit} />
     {/if}
     {#if !$session.user || !$logged}
-      <SideNavLink text='Login' href='login'/>
+      <SideNavLink isSelected={$page.path.split('/')[1] == 'login' ? true : false}  text='Login' href='login'/>
     {/if}
   </SideNavItems>
 </SideNav>

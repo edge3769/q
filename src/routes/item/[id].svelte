@@ -60,7 +60,7 @@
         {/if}
         <!-- <Link href='' on:click={open}>Gallery</Link> -->
         <Link href='{item.user}'>User</Link>
-        {#if $session.user.username == item.user}
+        {#if $session.user && $session.user.username == item.user}
             <Link href='edit/{item.id}'>Edit</Link>
         {/if}
     </Column>

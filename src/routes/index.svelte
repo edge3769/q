@@ -38,7 +38,7 @@
 
     const get = async function(){
         let tagString = JSON.stringify($itemTags)
-        let url = `items?tags=${tagString}&page=${page+1}`
+        let url = `items?tags=${tagString}&visible=1&page=${page+1}`
         let res = await api.get(url)
         if(Array.isArray(res.items)){
             items = res.items

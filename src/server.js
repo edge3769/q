@@ -5,7 +5,6 @@ import 'dotenv/config'
 import io from 'socket.io';
 import sirv from "sirv";
 import polka from "polka";
-import redirect from '@polka/redirect';
 import http from 'http'
 import compression from "compression";
 import * as sapper from "@sapper/server";

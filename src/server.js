@@ -1,5 +1,6 @@
 import * as api from './node_modules/api'
 import terminate from './node_modules/terminate'
+import redirect from './node_modules/redirect'
 
 import 'dotenv/config'
 import io from 'socket.io';
@@ -14,7 +15,6 @@ import sessionFileStore from 'session-file-store';
 
 const fetch = require('node-fetch')
 const webPush = require('web-push')
-const url = require('url')
 
 const FileStore = sessionFileStore(session);
 const { PORT, NODE_ENV} = process.env;

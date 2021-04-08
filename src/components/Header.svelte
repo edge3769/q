@@ -21,8 +21,6 @@
 
   const { page, session } = stores()
 
-  $: console.log($page.path.split('/')[1])
-
   const installed=()=>{
     show=false
   }

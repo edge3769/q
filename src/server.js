@@ -3,15 +3,17 @@ import terminate from './node_modules/terminate'
 import redirect from './node_modules/redirect'
 
 import 'dotenv/config'
-import io from 'socket.io';
-import sirv from "sirv";
-import polka from "polka";
+import io from 'socket.io'
+import sirv from "sirv"
+// import uuid from 'uuid'
+// import helmet from 'helmet'
+import polka from "polka"
 import http from 'http'
-import compression from "compression";
-import * as sapper from "@sapper/server";
-import bodyParser from 'body-parser';
-import session from 'express-session';
-import sessionFileStore from 'session-file-store';
+import compression from "compression"
+import * as sapper from "@sapper/server"
+import bodyParser from 'body-parser'
+import session from 'express-session'
+import sessionFileStore from 'session-file-store'
 
 const fetch = require('node-fetch')
 const webPush = require('web-push')
@@ -57,6 +59,22 @@ global.fetch = (url, opts) => {
 }
 
 polka({server})
+  // .use((req, res, next) => {
+  //   res.locals = {}
+  //   res.locals.nonce = uuid.v4()
+  //   next()
+  // })
+  // .use(helmet({
+  //   contentSecurityPolicy: {
+  //     directives: {
+  //       defaultSrc: ['self'],
+  //       scriptSrc: [
+  //         'self',
+  //         (req, res) => `'nonce-${res.locals.nonce}'`
+  //       ]
+  //     }
+  //   }
+  // }))
   .use(httpsRedirect, bodyParser.json())
   .get('/get', (req, res)=>{
     if(!process.env.VAPID_PUBLIC || !process.env.VAPID_PRIVATE){

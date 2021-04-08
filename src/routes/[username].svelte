@@ -21,12 +21,12 @@
         Row
     } from 'carbon-components-svelte'
     import { stores } from '@sapper/app'
-    import {marked} from 'utils'
+    import {parseMarkdown} from 'utils'
 
     let { session } = stores()
 
     let about
-    if (user.about) about = marked(user.about)
+    if (user.about) about = parseMarkdown(user.about)
 </script>
 
 <Row>
@@ -67,6 +67,8 @@
         {/if}
     </Column>
 </Row>
+
+<br />
 
 <Row>
     <Column lg={6} sm={6} md={6} xlg={6}>

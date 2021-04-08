@@ -66,6 +66,9 @@
             {/if}
                 <div class='label'>
                     <h4>{item.name}</h4>
+                    {#if item.user}
+                        <p class='bx--link--sm'>{item.user}</p>
+                    {/if}
                     {#if item.itype}
                         <p class='bx--link--sm'>{item.itype}</p>
                     {/if}

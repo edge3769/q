@@ -20,14 +20,16 @@
         Link,
         Column,
     } from 'carbon-components-svelte'
-    import {marked} from 'utils'
+    import {parseMarkdown} from 'utils'
     import { stores } from '@sapper/app'
     
     let { session } = stores()
 
     let itext
-    if (item.itext){
-        itext = marked(item.itext)
+    console.log(typeof(item.itext))
+    if(item.itext !== 'undefined'){
+        console.log(itext)
+        itext = parseMarkdown(item.itext)
     }
 </script>
 
@@ -71,7 +73,7 @@
 {#if itext}
     <Row noGutter>
         <Column lg={6} sm={6} md={6} xlg={6}>
-            <p>{@html itext}</p>
+            <div>{@html itext}</div>
         </Column>
     </Row>
 {/if}

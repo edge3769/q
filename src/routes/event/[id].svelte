@@ -20,14 +20,14 @@
         Link,
         Column,
     } from 'carbon-components-svelte'
-    import {marked} from 'utils'
+    import {parseMarkdown} from 'utils'
     import { stores } from '@sapper/app'
     
     let { session } = stores()
 
     let itext
     if (event.itext){
-        itext = marked(event.itext)
+        itext = parseMarkdown(event.itext)
     }
 </script>
 

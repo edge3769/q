@@ -130,7 +130,7 @@
             />
             <TextInput labelText="Type" bind:value={itype} />
         </FluidForm>
-            <TextArea labelText="Text" bind:value={itext} />
+            <TextArea rows={11} labelText="Text" bind:value={itext} />
     </Column>
 </Row>
 

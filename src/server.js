@@ -5,9 +5,6 @@ import redirect from './node_modules/redirect'
 import 'dotenv/config'
 import io from 'socket.io'
 import sirv from "sirv"
-// import uuid from 'uuid'
-// import helmet from 'helmet'
-import polka from "polka"
 import http from 'http'
 import compression from "compression"
 import * as sapper from "@sapper/server"
@@ -17,7 +14,7 @@ import sessionFileStore from 'session-file-store'
 
 const fetch = require('node-fetch')
 const webPush = require('web-push')
-const url = require('url')
+const express = require('express')
 
 const FileStore = sessionFileStore(session);
 const { PORT, NODE_ENV} = process.env;
@@ -35,16 +32,8 @@ process.on('SIGINT', exitHandler(0, 'SIGINT'))
 
 
 function httpsRedirect(req, res, next){
-  if(req.headers.host.split(':')[0] != ('localhost' || '127.0.0.1')){
-    var host = req.headers.host
-    var path = req.url
-    var re = url.parse(`http://${host}${path}`, true).query.r
-    if(!re && process.env.NODE_ENV == 'development'){
-      redirect(res, 301, `http://${host}${path}?r=1`)
-    }
-    if(!re && process.env.NODE_ENV != 'development'){
-      redirect(res, 301, `https://${host}${path}?r=1`)
-    }
+  if(process.env.NODE_ENV === 'production' && !req.secure){
+      res.redirect(301, `https://${req.headers.host}${req.url}`)
   }
   next()
 }
@@ -62,23 +51,7 @@ global.fetch = (url, opts) => {
   return fetch(url, opts)
 }
 
-polka({server})
-  // .use((req, res, next) => {
-  //   res.locals = {}
-  //   res.locals.nonce = uuid.v4()
-  //   next()
-  // })
-  // .use(helmet({
-  //   contentSecurityPolicy: {
-  //     directives: {
-  //       defaultSrc: ['self'],
-  //       scriptSrc: [
-  //         'self',
-  //         (req, res) => `'nonce-${res.locals.nonce}'`
-  //       ]
-  //     }
-  //   }
-  // }))
+express({server})
   .use(httpsRedirect, bodyParser.json())
   .get('/get', (req, res)=>{
     if(!process.env.VAPID_PUBLIC || !process.env.VAPID_PRIVATE){

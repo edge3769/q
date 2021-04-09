@@ -13,21 +13,29 @@
         Button,
         Column,
         ButtonSet,
-        InlineLoading
+        InlineLoading,
+Checkbox
     } from 'carbon-components-svelte';
     import Input from '../components/Input/Input.svelte'
     import { goto, stores } from '@sapper/app';
     import { isSideNavOpen, logged } from '../stores.js'
     import { post } from 'utils.js';
 
+    let newUser
+
     let { session } = stores();
     let usernameInvalid = false
-    let passwordInvalid = false
+    let username = null
     let usernameError
+
+    let passwordInvalid = false
+    let password = null
     let passwordError
 
-    let username = null
-    let password = null
+    let emailInvalid = false
+    let emailError = false
+    let email
+
     let loginLoading
     let joinLoading
 
@@ -94,7 +102,7 @@
         }
         usernameInvalid=false
         passwordInvalid=false
-        let r = await post('auth/login', { username, password })
+        let r = await post('auth/login', { email, username, password })
             .then((r)=>{
                 loginLoading=false
                 return r
@@ -120,7 +128,21 @@
 
 <Row noGutter>
     <Column>
+        <Checkbox bind:checked={newUser} labelText='New User' />
+    </Column>
+</Row>
+
+<Row noGutter>
+    <Column>
         <FluidForm>
+            {#if newUser}
+                <Input
+                    bind:invalid={emailInvalid}
+                    invalidText={emailError}
+                    bind:value={email}
+                    labelText='Password Recovery Email'
+                />
+            {/if}
             <Input
                 bind:invalid={usernameInvalid}
                 invalidText={usernameError}
@@ -143,24 +165,27 @@
         <ButtonSet 
             stacked
         >
-            <Button as let:props>
-                <div on:click={login} {...props}>
-                    <p>Login</p>
-                    {#if loginLoading}
-                        <InlineLoading />
-                    {/if}
-                </div>
-            </Button>
-            <Button as let:props
-                kind='ghost'
-            >
-                <div on:click={join} {...props}>
-                    <p>Join</p>
-                    {#if joinLoading}
-                        <InlineLoading />
-                    {/if}
-                </div>                
-            </Button>
+            {#if !newUser}
+                <Button as let:props>
+                    <div on:click={login} {...props}>
+                        <p>Login</p>
+                        {#if loginLoading}
+                            <InlineLoading />
+                        {/if}
+                    </div>
+                </Button>
+            {/if}
+            
+            {#if newUser}
+                <Button as let:props>
+                    <div on:click={join} {...props}>
+                        <p>Join</p>
+                        {#if joinLoading}
+                            <InlineLoading />
+                        {/if}
+                    </div>                
+                </Button>
+            {/if}
     </ButtonSet>
     </Column>
 </Row>

@@ -69,7 +69,7 @@ Checkbox
         }
         usernameInvalid=false
         passwordInvalid=false
-        let r = await post(`auth/join`, { username, password })
+        let r = await post(`auth/join`, { email, username, password })
             .then((r)=>{
                 joinLoading=false
                 return r
@@ -102,7 +102,7 @@ Checkbox
         }
         usernameInvalid=false
         passwordInvalid=false
-        let r = await post('auth/login', { email, username, password })
+        let r = await post('auth/login', { username, password })
             .then((r)=>{
                 loginLoading=false
                 return r

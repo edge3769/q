@@ -35,10 +35,16 @@ process.on('SIGINT', exitHandler(0, 'SIGINT'))
 
 
 function httpsRedirect(req, res, next){
-  var splitHost = req.headers.host.split(':')
-  var port = splitHost[1]
-  if(process.env.NODE_ENV != 'development' && (!port || port != 443)){
-    redirect(res, 301, `https://${splitHost[0]}:443${req.url}`)
+  if(req.headers.host.split(':')[0] != ('localhost' || '127.0.0.1')){
+    var host = req.headers.host
+    var path = req.url
+    var re = url.parse(`http://${host}${path}`, true).query.r
+    if(!re && process.env.NODE_ENV == 'development'){
+      redirect(res, 301, `http://${host}${path}?r=1`)
+    }
+    if(!re && process.env.NODE_ENV != 'development'){
+      redirect(res, 301, `https://${host}${path}?r=1`)
+    }
   }
   next()
 }

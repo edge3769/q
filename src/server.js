@@ -32,10 +32,11 @@ process.on('SIGINT', exitHandler(0, 'SIGINT'))
 
 
 function httpsRedirect(req, res, next){
-  if(process.env.NODE_ENV === 'production' && !req.secure){
-      res.redirect(301, `https://${req.headers.host}${req.url}`)
+  if(req.headers['x-forwarded-proto'] == 'https' || NODE_ENV == 'development'){
+    next()
+  } else {
+    res.redirect(`https://${req.hostname}${req.url}`)
   }
-  next()
 }
 
 if(process.env.VAPID_PUBLIC && process.env.VAPID_PRIVATE){

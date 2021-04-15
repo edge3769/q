@@ -60,7 +60,7 @@ express({server})
     }
     res.end(process.env.VAPID_PUBLIC)
   })
-  .put('/send', async(req, res)=>{
+  .put('/send', async(req, res) => {
     let id = req.body.id
     let {subs} = await api.get(`subs/${id}`) || []
     const options = {

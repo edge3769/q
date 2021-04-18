@@ -1,3 +1,20 @@
+loading - edit
+loading - item-edit
+loading - add-item edit
+
+user-edit
+    check username
+    bind attribute fields to user object attribute
+
+item-edit
+    bind attribute fields to item object attribute
+
+make login notify query - notifications:List
+Tag component for all
+general validate function
+
+forgot password page line, response
+install carbon-icons-svelte
 how to use segment - header
 image file upload allowed files
 gallery

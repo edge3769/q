@@ -47,7 +47,7 @@
         {#if user.address}
             <p>{user.address}</p>
         {/if}
-        {#if user.email}
+        {#if user.show_email && user.email}
             <p>{user.email}</p>
         {/if}
         {#if user.website}

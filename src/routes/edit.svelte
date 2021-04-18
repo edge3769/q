@@ -1,3 +1,5 @@
+<svelte:window on:keydown={keydown} />
+
 <script context="module">
     import * as api from 'api.js';
     export async function preload({params}, { user }) {
@@ -13,6 +15,7 @@
     export let user
     import { goto, stores } from '@sapper/app';
     import {
+        InlineLoading,
         FluidForm,
         TextInput,
         Checkbox,
@@ -24,14 +27,18 @@
     import Input from '../components/Input/Input.svelte'
     import Image from '../components/Image.svelte'
     import Tag from '../components/Tag.svelte'
+    import { checkEmail } from 'utils'
+
+    $: if(username) username = username.toLowerCase()
+    $: if(email) email = email.toLowerCase()
 
     let { session } = stores();
 
+    let show_email = user.show_email
     let username = user.username
     let visible = user.visible
     let address = user.address
     let website = user.website
-    let images = user.images
     let image = user.image
     let email = user.email
     let phone = user.phone
@@ -42,56 +49,56 @@
 
     let usernameInvalid
     let usernameError
-    let files = []
-    let current
-    let tag
-    let ref
+    let loading
 
-    // images.forEach(i=>{
-    //     files = [...files, {url:i, name:'null', ref:null, status:'complete'}]
-    // })
-
-    let clear = () => {
-        open=false
-        tags = []
-    }
-
-    let keydown = (e) => {
+    const keydown=(e)=>{
         switch(e.keyCode){
             case 13:
-                if (current==ref) addTag()
+                if (e.ctrlKey){
+                    edit()
+                }
         }
     }
 
-    let addTag = () => {
-        if (tag != '' && !tags.includes(tag)){
-            tags = [...tags, tag]
-            open=true
-            tag=''
-        }
-    }
-
-    let delTag = (tag) => {
-        tags = tags.filter(t => t != tag)
-    }
-
-    let checkUsername = async () => {
+    const checkUsername=async()=>{
         if (username != user.username){
             usernameInvalid = await api.get(`check_username/${username}`).then(r => !r.res)
         }
     }
 
-    let edit = async () => {
-        images = []
-        files.forEach(f=>{
-            images = [...images, f.url]
-        })
+    const edit=async()=>{
+        loading = true
+        if (!email){
+            emailInvalid = true
+            emailError = 'Empty'
+            loading = false
+            return
+        }
+        if (!checkEmail(email)){
+            emailInvalid = true
+            emailError = 'Unaccepted'
+            loading = false
+            return 
+        }
+        if (!username){
+            usernameInvalid = true
+            usernameError = 'Empty'
+            loading = false
+            return
+        }
+        if (checkEmail(username)){
+            usernameInvalid = true
+            usernameError = 'Unaccepted'
+            loading = false
+            return
+        }
+        // if ()
         let data = {
+            show_email,
             username,
             visible,
             website,
             address,
-            images,
             email,
             phone,
             about,
@@ -99,21 +106,24 @@
             tags,
             name,
         } 
-        let res = await api.put('users', data, token)
+        let res = await api.put('users', data, token).then(
+            (r)=>{
+                loading = false
+                return r
+            }
+        )
         if (res.id) {
-            $session.user = res;
+            $session.user = res
             goto(`${res.username}`)
         }
     }
 </script>
 
-<svelte:window on:keydown={keydown} />
-
 <svelte:head>
     <title>Edit</title>
 </svelte:head>
 
-<Image bind:files bind:image />
+<Image bind:image />
 
 <Row noGutter>
     <Column>
@@ -133,18 +143,34 @@
                 bind:value={username}
                 labelText="Username"
             />
+            <Checkbox labelText='Show email in profile' bind:checked={show_email} />
             <TextInput labelText="Email" bind:value={email} />
             <TextInput labelText="Name" bind:value={name} />
             <TextInput labelText="Phone" bind:value={phone} />
             <TextInput labelText="Address" bind:value={address} />
             <TextInput labelText="Website" bind:value={website} />
             <TextArea rows={11} placeholder='Markdown' labelText='About(Markdown)' bind:value={about} />
-    </FluidForm>
+        </FluidForm>
     </Column>
 </Row>
     
 <Row noGutter>
     <Column>
-        <Button on:click={edit}>Edit</Button>
+        <Button as let:props>
+            <div on:click={edit} {...props}>
+                <p>Edit</p>
+                {#if loading}
+                    <div class='right'>
+                        <InlineLoading />
+                    </div>
+                {/if}
+            </div>
+        </Button>
     </Column>
 </Row>
+
+<style>
+    .right {
+        float: right;
+    }
+</style>

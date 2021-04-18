@@ -1,3 +1,5 @@
+<svelte:window on:keydown={keydown} />
+
 <script context="module">
     export async function preload({ path }, { user }) {
         if (!user) {
@@ -22,9 +24,12 @@
         TextInput,
         ButtonSet,
         FluidForm,
+        InlineLoading,
     } from 'carbon-components-svelte'
     import { goto } from '@sapper/app'
     import * as api from 'api'
+
+    $: itype = initialCaps(itype)
 
     let nameInvalid
 
@@ -36,51 +41,35 @@
     let redirect
 
     let token = user.token
-    let files = []
     let tags = []
-    let current
+    let loading
     let image
-    let open
-    let tag
-    let ref
 
-    $: itype = initialCaps(itype)
-
-    let keydown = (e) => {
+    const keydown = (e) => {
         switch(e.keyCode){
             case 13:
-                if (current==ref){
-                    addTag()
+                if (e.ctrlKey){
+                    add()
                 }
         }
     }
 
-    let addTag = () => {
-        if (tag != '' && !tags.includes(tag)){
-            tags = [...tags, tag]
-            open=true
-            tag=''
-        }
-    }
-
-    let delTag = (tag) => {
-        tags = tags.filter(t => t != tag)
-    }
-
-    let add = async function() {
-        let images = files.map((f)=>{
-            f = f.file
-        })
+    const add=async()=>{
+        loading = true
         let data = {
             tags,
             name,
             image,
             price,
             itype,
-            images,
             itext
         }
-        let res = await api.post('items', data, token)
+        let res = await api.post('items', data, token).then(
+            (r)=>{
+                loading=false
+                return r
+            }
+        )
         if (res.nameError) {
             nameInvalid = true
         }
@@ -90,13 +79,11 @@
     }
 </script>
 
-<svelte:window on:keydown={keydown} />
-    
 <svelte:head>
     <title>Add Item</title>
 </svelte:head>
 
-<Image bind:image bind:files />
+<Image bind:image />
 
 <Tag placeholder={tags.length > 0 ? `${tags.length} tags` : 'Add tag'} bind:tags />
 
@@ -115,7 +102,9 @@
             {#if redirect}
                 <TextInput labelText="Link" bind:value={link} />
             {/if}
-            <TextArea labelText="Text(markdown)" bind:value={itext} />
+            {#if !redirect}
+                <TextArea placeholder='Description(Markdown)' labelText="Description(markdown)" bind:value={itext} />
+            {/if}
         </FluidForm>
     </Column>
 </Row>

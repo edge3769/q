@@ -1,25 +1,38 @@
+<svelte:window on:keydown={keydown} />
+
 <script context="module">
-    export async function preload({ user }) {
+    import * as api from 'api'
+    export async function preload(page, { user }) {
+        const notify = page.query.notify
         if (user) {
             this.redirect(302, '/');
         }
+        return {notify}
     }
 </script>
     
 <script>
+    export let notify
+    
     import {
         Row,
         FluidForm,
+        Checkbox,
         Button,
         Column,
         ButtonSet,
         InlineLoading,
-Checkbox
     } from 'carbon-components-svelte';
     import Input from '../components/Input/Input.svelte'
     import { goto, stores } from '@sapper/app';
     import { isSideNavOpen, logged } from '../stores.js'
-    import { post } from 'utils.js';
+    import { post, checkEmail } from 'utils.js'
+    import ExpiredLink from '../components/Notifications/ExpiredLink.svelte'
+    import InvalidLink from '../components/Notifications/InvalidLink.svelte'
+    import ResetSuccess from '../components/Notifications/ResetSuccess.svelte';
+
+    $: if(username) username = username.toLowerCase()
+    $: if(email) email = email.toLowerCase()
 
     let newUser
 
@@ -33,13 +46,31 @@ Checkbox
     let passwordError
 
     let emailInvalid = false
-    let emailError = false
+    let emailError = 'Invalid Email'
     let email
 
+    let resetPasswordStatus
     let loginLoading
     let joinLoading
 
-    let keydown = (e) => {
+    const resetPassword=async()=>{
+        if(!username){
+            usernameInvalid = true
+            return
+        }
+        resetPasswordStatus = 'loading'
+        const res = await api.put('forgot_password', {username}).then(
+            (r)=>{
+                resetPasswordStatus = 'done'
+                return r
+            }
+        )
+        if(res.sent){
+            resetPasswordStatus = 'sent'
+        }
+    }
+
+    const keydown = (e) => {
         if(e.ctrlKey){
             switch(e.keyCode){
                 case 13:
@@ -53,12 +84,30 @@ Checkbox
         }
     }
 
-    let join  = async function() {
+    const join  = async function() {
         joinLoading = true
+        if (!email){
+            emailInvalid = true
+            emailError = 'Empty'
+            joinLoading = false
+            return
+        }
+        if (!checkEmail(email)){
+            emailInvalid = true
+            emailError = 'Unaccepted'
+            joinLoading = false
+            return 
+        }
         if (!username){
             usernameInvalid = true
             usernameError = 'Empty'
             joinloading = false
+            return
+        }
+        if (checkEmail(username)){
+            usernameInvalid = true
+            usernameError = 'Unaccepted'
+            joinLoading = false
             return
         }
         if (!password){
@@ -69,15 +118,16 @@ Checkbox
         }
         usernameInvalid=false
         passwordInvalid=false
-        let r = await post(`auth/join`, { email, username, password })
-            .then((r)=>{
+        emailInvalid=false
+        const r = await post(`auth/join`, { email, username, password }).then(
+            (r)=>{
                 joinLoading=false
                 return r
             })
-        usernameError = r.usernameError
-        passwordError = r.passwordError
         usernameInvalid = r.usernameInvalid
+        usernameError = r.usernameError
         passwordInvalid = r.passwordInvalid
+        passwordError = r.passwordError
         if (r.user) {
             $session.user = r.user
             $logged = true
@@ -86,7 +136,7 @@ Checkbox
         }
     }
 
-    let login = async function() {
+    const login = async function() {
         loginLoading = true
         if (!username){
             usernameInvalid = true
@@ -102,8 +152,8 @@ Checkbox
         }
         usernameInvalid=false
         passwordInvalid=false
-        let r = await post('auth/login', { username, password })
-            .then((r)=>{
+        let r = await post('auth/login', { username, password }).then(
+            (r)=>{
                 loginLoading=false
                 return r
             })
@@ -111,7 +161,7 @@ Checkbox
         passwordError = r.passwordError
         usernameInvalid = r.usernameInvalid
         passwordInvalid = r.passwordInvalid
-        if (await r.user) {
+        if (r.user) {
             $session.user = await r.user
             $logged = true
             $isSideNavOpen = true
@@ -120,7 +170,13 @@ Checkbox
     }
 </script>
 
-<svelte:window on:keydown={keydown} />
+{#if notify == 'expiredLink'}
+    <ExpiredLink />
+{:else if notify == 'InvalidLink'}
+    <InvalidLink />
+{:else if notify == 'resetSuccess'}
+    <ResetSuccess />
+{/if}
 
 <svelte:head>
     <title>Login</title>
@@ -140,7 +196,7 @@ Checkbox
                     bind:invalid={emailInvalid}
                     invalidText={emailError}
                     bind:value={email}
-                    labelText='Password Recovery Email'
+                    labelText='Email'
                 />
             {/if}
             <Input
@@ -170,9 +226,21 @@ Checkbox
                     <div on:click={login} {...props}>
                         <p>Login</p>
                         {#if loginLoading}
-                            <InlineLoading />
+                            <div class='right'>
+                                <InlineLoading />
+                            </div>
                         {/if}
                     </div>
+                </Button>
+                <Button kind='ghost' as let:props>
+                    <div on:click={resetPassword} {...props}>
+                        <p>Reset Password</p>
+                        {#if resetPasswordStatus == 'loading'}
+                            <div class='right'>
+                                <InlineLoading />
+                            </div>
+                        {/if}
+                    </div>                
                 </Button>
             {/if}
             
@@ -181,11 +249,23 @@ Checkbox
                     <div on:click={join} {...props}>
                         <p>Join</p>
                         {#if joinLoading}
+                        <div class='right'>
                             <InlineLoading />
+                        </div>
                         {/if}
                     </div>                
                 </Button>
             {/if}
     </ButtonSet>
+    {#if resetPasswordStatus == 'sent'}
+        <br />
+        <p>Check your email</p>
+    {/if}
     </Column>
 </Row>
+
+<style>
+    .right {
+        float: right;
+    }
+</style>

@@ -1,4 +1,13 @@
+<script context='module'>
+    export async function preload(page){
+        let notify = page.query.notify
+        return {notify}
+    }
+</script>
+
 <script>
+    export let notify
+
     import {
         Row,
         Column,
@@ -8,6 +17,7 @@
     import {
         itemTags
     } from '../stores.js'
+    import ResetSuccess from '../components/Notifications/ResetSuccess.svelte'
     import Tag from '../components/Tag.svelte'
     import {goto} from '@sapper/app'
 
@@ -17,24 +27,6 @@
     let pages = 0
 
     let got
-
-    const addTag=()=>{
-        if (tag != '' && !$itemTags.includes(tag)){
-            $itemTags=[...$itemTags, tag]
-            open=true
-            tag=''
-        }
-    }
-
-    const delTag=(tag)=>{
-        $itemTags=$itemTags.filter(t => t != tag)
-        get()
-    }
-
-    const clear = () => {
-        $itemTags = []
-        open = false
-    }
 
     const get = async function(){
         let tagString = JSON.stringify($itemTags)
@@ -48,6 +40,10 @@
         }
     }
 </script>
+
+{#if notify == 'resetSuccess'}
+    <ResetSuccess />
+{/if}
 
 <svelte:head>
     <title>Apexlinks</title>

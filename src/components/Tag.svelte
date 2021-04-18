@@ -27,6 +27,11 @@
 
     const keydown=(e)=>{
         switch(e.keyCode){
+            case 32:
+                if (focused){
+                    value = value.split(' ')[0]
+                    add()
+                }
             case 13:
                 if (focused){
                     add()

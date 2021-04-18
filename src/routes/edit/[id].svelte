@@ -36,22 +36,19 @@
     let itext = item.itext
     let visible = item.visible
     let images = item.images
+    let redirect = item.redirect
     let price = item.price
+    let link = item.link
     let itype = item.itype
     let image = item.image
     let name = item.name
     let tags = item.tags
-    let files = []
+
     let delOpen
-    let file
+    let delLoading
+    let editLoading
 
-    if (images){
-        for (file of images){
-            files = [...files, {file: file, name: file.name, ref: null, status: 'completed'}]
-        }
-    }
-
-    let keydown = (e) => {
+    const keydown = (e) => {
         switch(e.keyCode){
             case 13:
                 if (e.ctrlKey){
@@ -60,29 +57,39 @@
         }
     }
 
-    let del = async function(){
-        let res = await api.del(`items/${item.id}`, user.token)
+    const del = async function(){
+        delLoading = true
+        let res = await api.del(`items/${item.id}`, user.token).then(
+            (r)=>{
+                delLoading = false
+                return r
+            }
+        )
         if (res.yes){
             goto(`items/${user.id}`)
-        }
+        } //TODO else reload the page
     }
 
-    let edit = async function(){
-        images = files.map((f)=>{
-            f = f.file
-        })
+    const edit = async function(){
+        editLoading = true
         let data = {
             itext,
             id: item.id,
-            images,
             image,
+            link,
+            redirect,
             visible,
             price,
             itype,
             name,
             tags,
         }
-        let res = await api.put('items', data, user.token)
+        let res = await api.put('items', data, user.token).then(
+            (r)=>{
+                editLoading = false
+                return r
+            }
+        )
         if (res.nameError) {
             nameInvalid = true
         }
@@ -109,7 +116,7 @@
     <title>Edit Item</title>
 </svelte:head>
 
-<Image bind:files bind:image />
+<Image bind:image />
 
 <Row noGutter>
     <Column>
@@ -128,9 +135,15 @@
                 bind:invalid={nameInvalid}
                 invalidText='Name taken'
             />
-            <TextInput labelText="Type" bind:value={itype} />
+            <TextInput labelText="Item type" bind:value={itype} />
+            <Checkbox bind:checked={redirect} 
+                labelText="Let the item's listing redirect to a link" />
+            {#if redirect}
+                <TextInput labelText='Link' bind:value={link} />
+            {:else}
+                <TextArea placeholder='Description(Markdown)' labelText="Description(markdown)" bind:value={itext} />
+            {/if}
         </FluidForm>
-            <TextArea rows={11} labelText="Text" bind:value={itext} />
     </Column>
 </Row>
 

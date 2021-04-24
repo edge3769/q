@@ -26,9 +26,7 @@
     let { session } = stores()
 
     let itext
-    console.log(typeof(item.itext))
     if(item.itext !== 'undefined'){
-        console.log(itext)
         itext = parseMarkdown(item.itext)
     }
 </script>

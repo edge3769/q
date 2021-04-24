@@ -1,10 +1,8 @@
 <script>
-    import {
-        ToastNotification
-    } from 'carbon-components-svelte'
+    import NavNotificationTemplate from './NavNotificationTemplate.svelte'
 </script>
 
-<ToastNotification
+<NavNotificationTemplate
     kind='success'
-    title='Password Reset Successful'
+    title='Password reset successful'
 />

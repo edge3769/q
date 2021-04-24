@@ -3,17 +3,17 @@
 <script context="module">
     import * as api from 'api'
     export async function preload(page, { user }) {
-        const notify = page.query.notify
+        let n = page.query.n
         if (user) {
             this.redirect(302, '/');
         }
-        return {notify}
+        return {n}
     }
 </script>
     
 <script>
-    export let notify
-    
+    export let n
+
     import {
         Row,
         FluidForm,
@@ -25,14 +25,14 @@
     } from 'carbon-components-svelte';
     import Input from '../components/Input/Input.svelte'
     import { goto, stores } from '@sapper/app';
-    import { isSideNavOpen, logged } from '../stores.js'
+    import { isSideNavOpen, logged, notify } from '../stores.js'
     import { post, checkEmail } from 'utils.js'
-    import ExpiredLink from '../components/Notifications/ExpiredLink.svelte'
-    import InvalidLink from '../components/Notifications/InvalidLink.svelte'
-    import ResetSuccess from '../components/Notifications/ResetSuccess.svelte';
+    import NavNotification from '../components/Notifications/NavNotification.svelte'
 
-    $: if(username) username = username.toLowerCase()
-    $: if(email) email = email.toLowerCase()
+    if(n && process.browser) {
+        $notify = n
+        goto('login')
+    }
 
     let newUser
 
@@ -53,23 +53,6 @@
     let loginLoading
     let joinLoading
 
-    const resetPassword=async()=>{
-        if(!username){
-            usernameInvalid = true
-            return
-        }
-        resetPasswordStatus = 'loading'
-        const res = await api.put('forgot_password', {username}).then(
-            (r)=>{
-                resetPasswordStatus = 'done'
-                return r
-            }
-        )
-        if(res.sent){
-            resetPasswordStatus = 'sent'
-        }
-    }
-
     const keydown = (e) => {
         if(e.ctrlKey){
             switch(e.keyCode){
@@ -84,9 +67,60 @@
         }
     }
 
+    const resetPassword=async()=>{
+        if(!username){
+            usernameInvalid = true
+            return
+        }
+        resetPasswordStatus = 'loading'
+        const res = await api.put('forgot_password', {username}).finally(
+            (r)=>{
+                resetPasswordStatus = 'done'
+                return r
+            }
+        )
+        if(res.sent){
+            resetPasswordStatus = 'sent'
+        }
+    }
+
+    const login = async function() {
+        loginLoading = true
+        if (!username){
+            usernameInvalid = true
+            usernameError = 'Empty'
+            loginLoading = false
+            return
+        }
+        if (!password){
+            passwordInvalid = true
+            passwordError = 'Empty'
+            loginLoading = false
+            return
+        }
+        usernameInvalid=false
+        passwordInvalid=false
+        let r = await post('auth/login', { username, password }).finally(
+            (r)=>{
+                console.log(r)
+                loginLoading=false
+                return r
+            })
+        usernameError = r.usernameError
+        passwordError = r.passwordError
+        usernameInvalid = r.usernameInvalid
+        passwordInvalid = r.passwordInvalid
+        if (r.user) {
+            $session.user = await r.user
+            $logged = true
+            $isSideNavOpen = true
+            goto('/')
+        }
+    }
+
     const join  = async function() {
         joinLoading = true
-        if (!email){
+        if (newUser && !email){
             emailInvalid = true
             emailError = 'Empty'
             joinLoading = false
@@ -119,11 +153,13 @@
         usernameInvalid=false
         passwordInvalid=false
         emailInvalid=false
-        const r = await post(`auth/join`, { email, username, password }).then(
+        const r = await post(`auth/join`, { email, username, password }).finally(
             (r)=>{
-                joinLoading=false
+                console.log(r)
+                resetPasswordStatus = 'done'
                 return r
-            })
+            }
+        )
         usernameInvalid = r.usernameInvalid
         usernameError = r.usernameError
         passwordInvalid = r.passwordInvalid
@@ -135,48 +171,9 @@
             goto('edit')
         }
     }
-
-    const login = async function() {
-        loginLoading = true
-        if (!username){
-            usernameInvalid = true
-            usernameError = 'Empty'
-            loginLoading = false
-            return
-        }
-        if (!password){
-            passwordInvalid = true
-            passwordError = 'Empty'
-            loginLoading = false
-            return
-        }
-        usernameInvalid=false
-        passwordInvalid=false
-        let r = await post('auth/login', { username, password }).then(
-            (r)=>{
-                loginLoading=false
-                return r
-            })
-        usernameError = r.usernameError
-        passwordError = r.passwordError
-        usernameInvalid = r.usernameInvalid
-        passwordInvalid = r.passwordInvalid
-        if (r.user) {
-            $session.user = await r.user
-            $logged = true
-            $isSideNavOpen = true
-            goto('/')
-        }
-    }
 </script>
 
-{#if notify == 'expiredLink'}
-    <ExpiredLink />
-{:else if notify == 'InvalidLink'}
-    <InvalidLink />
-{:else if notify == 'resetSuccess'}
-    <ResetSuccess />
-{/if}
+<NavNotification />
 
 <svelte:head>
     <title>Login</title>
@@ -197,6 +194,7 @@
                     invalidText={emailError}
                     bind:value={email}
                     labelText='Email'
+                    focus
                 />
             {/if}
             <Input

@@ -1,6 +1,7 @@
 <svelte:window on:keydown={keydown} />
 
 <script context='module'>
+    import * as api from 'api'
     export async function preload(page, {user}){
         if(user){
             this.redirect(302, 'login')
@@ -8,7 +9,7 @@
         let token = page.query.q
         let res = await api.get('check_reset_password_token', token)
         if(res != 'true'){
-            this.redirect(302, 'login?notify=invalidLink')
+            this.redirect(302, `login?n=invalid`)
         }
     }
 </script>
@@ -26,6 +27,7 @@
     } from 'carbon-components-svelte'
     import Input from '../components/Input/Input.svelte'
     import { goto } from '@sapper/app'
+    import { notify } from '../stores'
     import { post } from 'utils.js'
 
     let password
@@ -51,7 +53,7 @@
 
     let reset=async()=>{
         loading = true
-        if(password2 === ''){
+        if(!password2){
             passwordInvalid = true
             passwordError = 'Empty'
             loading = false
@@ -63,16 +65,15 @@
             loading = false
             return
         }
-        let res = await api.put('reset_password', {password}, token)
-        if(res.email){
-            await post('auth/login', {username, password}).then(
-                ()=>{
-                    loading = false
-                    goto('index?notify=resetSuccess')
-                }
-            )
-        } else if(res.expired) {
-            goto('login?notify=expiredLink')
+        let res = await api.put('reset_password', {password}, token).finally(
+            ()=>loading=false
+        )
+        if(res.email) {
+            $notify = 'resetSuccess'
+            await post('auth/login', {username, password})
+        } else {
+            $notify = 'invalidLink'
+            goto('login')
         }
     }
 </script>
@@ -86,6 +87,7 @@
                 bind:value="{password2}"
                 labelText='Password'
                 password
+                focus
             />
             <Input
                 bind:value="{password}"

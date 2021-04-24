@@ -9,6 +9,7 @@ function simpleStore() {
     }
 }
 
+export const notify = simpleStore()
 export const sort = simpleStore()
 export const itype = simpleStore()
 export const whose = simpleStore()

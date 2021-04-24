@@ -1,5 +1,6 @@
 <script>
     export let tags = []
+    export let is_focused = false
     export let placeholder = 'Add Tag'
     import { createEventDispatcher } from 'svelte'
     import {
@@ -9,11 +10,14 @@
         TextInput
     } from 'carbon-components-svelte'
 
+    $: if(ref && is_focused) ref.focus()
+
     const dispatch = createEventDispatcher()
 
     let focused
     let value
     let open
+    let ref
 
     const focus=()=>{
         focused=true
@@ -63,7 +67,7 @@
 
 <Row noGutter>
     <Column xlg={4} lg={4} md={4} sm={4}>
-        <TextInput placeholder={placeholder} on:focus={focus} on:blur={blur} bind:value />
+        <TextInput bind:ref placeholder={placeholder} on:focus={focus} on:blur={blur} bind:value />
         <slot />
     </Column>
 </Row>
@@ -71,9 +75,11 @@
 {#if open}
     <Row noGutter>
         <Column xlg={4} lg={4} md={4} sm={4}>
-            <Tag on:click={clear} type='magenta'>
-                Clear
-            </Tag>
+            {#if tags.length > 0}
+                <Tag on:click={clear} type='magenta'>
+                    Clear
+                </Tag>
+            {/if}
             {#each tags as tag}
                 <Tag filter on:click={del(tag)}>{tag}</Tag>
             {/each}

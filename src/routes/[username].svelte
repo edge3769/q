@@ -20,6 +20,11 @@
         Link,
         Row
     } from 'carbon-components-svelte'
+    import User16 from 'carbon-icons-svelte/lib/User16'
+    import Phone16 from 'carbon-icons-svelte/lib/Phone16'
+    import Earth16 from 'carbon-icons-svelte/lib/Earth16'
+    import Email16 from 'carbon-icons-svelte/lib/Email16'
+    import Location16 from 'carbon-icons-svelte/lib/Location16'
     import { stores } from '@sapper/app'
     import {parseMarkdown} from 'utils'
 
@@ -39,26 +44,38 @@
     {/if}
     <Column lg={4} sm={4} md={4} xlg={4}>
         {#if user.name}
-            <h2>{user.name}</h2>
+            <p>{user.name}</p>
         {/if}
         {#if user.username}
-            <p>{user.username}</p>
+            <div>
+                <User16 />
+                <span>{user.username}</span>
+            </div>
         {/if}
         {#if user.address}
-            <p>{user.address}</p>
+            <div>
+                <Location16 />
+                <span>{user.address}</span>
+            </div>
         {/if}
         {#if user.show_email && user.email}
-            <p>{user.email}</p>
+            <div>
+                <Email16 />
+                <span>{user.email}</span>
+            </div>
         {/if}
         {#if user.website}
-            <Link href={user.website}>{user.website}</Link>
+            <div>
+                <Earth16 />
+                <Link href={user.website}>{user.website}</Link>
+            </div>
         {/if}
         {#if user.phone}
-            <p>{user.phone}</p>
+            <div>
+                <Phone16 />
+                <span>{user.phone}</span>
+            </div>
         {/if}
-        <!-- {#if !user.images_empty}
-            <div><Link href={null} on:click={open}>Gallery</Link></div>
-        {/if} -->
         {#if !user.items_empty}
             <Link href='items/{user.id}'>Items</Link>
         {/if}

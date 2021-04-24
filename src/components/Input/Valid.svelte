@@ -1,6 +1,7 @@
 <script>
-    export let value
-    export let password
+    export let value = ''
+    export let is_focused = false
+    export let password = ''
     import {
         PasswordInput,
         TextInput
@@ -9,13 +10,13 @@
 
     let ref
 
-    onMount(() => {
-        ref.focus()
+    onMount(()=>{
+        if(is_focused) ref.focus()
     })
 </script>
 
 {#if password}
-<PasswordInput {...$$restProps} bind:ref bind:value />
+    <PasswordInput bind:value bind:ref {...$$restProps} />
 {:else}
-<TextInput {...$$restProps} bind:ref bind:value />
+    <TextInput bind:value bind:ref {...$$restProps} />
 {/if}

@@ -1,6 +1,4 @@
 <script>
-  export let segment = undefined;
-
   import {
     Content,
     Grid,
@@ -10,7 +8,7 @@
 </script>
 
 <Theme persist theme="g10">
-  <Header segment="{segment}" />
+  <Header />
   <Content style="background: none; padding: 1rem">
     <Grid noGutter>
       <slot />

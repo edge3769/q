@@ -1,11 +1,7 @@
 <script>
-    import {
-        ToastNotification
-    } from 'carbon-components-svelte'
+    import NavNotificationTemplate from './NavNotificationTemplate.svelte'
 </script>
 
-<ToastNotification
-    kind='warning'
-    title='Expired link'
-    subtitle='That password was invalid'
+<NavNotificationTemplate
+    title='Invalid password reset link'
 />

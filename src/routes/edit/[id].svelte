@@ -59,7 +59,7 @@
 
     const del = async function(){
         delLoading = true
-        let res = await api.del(`items/${item.id}`, user.token).then(
+        let res = await api.del(`items/${item.id}`, user.token).finally(
             (r)=>{
                 delLoading = false
                 return r
@@ -84,7 +84,7 @@
             name,
             tags,
         }
-        let res = await api.put('items', data, user.token).then(
+        let res = await api.put('items', data, user.token).finally(
             (r)=>{
                 editLoading = false
                 return r

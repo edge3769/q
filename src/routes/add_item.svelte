@@ -64,7 +64,7 @@
             itype,
             itext
         }
-        let res = await api.post('items', data, token).then(
+        let res = await api.post('items', data, token).finally(
             (r)=>{
                 loading=false
                 return r

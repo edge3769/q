@@ -29,6 +29,8 @@
     import Tag from '../components/Tag.svelte'
     import { checkEmail } from 'utils'
 
+    $: checkUsername(username)
+
     $: if(username) username = username.toLowerCase()
     $: if(email) email = email.toLowerCase()
 
@@ -45,10 +47,14 @@
     let about = user.about
     let token = user.token
     let name = user.name
-    let tags = user.tags
+    let tags = user.tags || []
 
     let usernameInvalid
     let usernameError
+
+    let emailInvalid
+    let emailError
+
     let loading
 
     const keydown=(e)=>{
@@ -106,7 +112,7 @@
             tags,
             name,
         } 
-        let res = await api.put('users', data, token).then(
+        let res = await api.put('users', data, token).finally(
             (r)=>{
                 loading = false
                 return r
@@ -139,7 +145,6 @@
             <Input
                 bind:invalidText={usernameError}
                 bind:invalid={usernameInvalid}
-                on:blur={checkUsername}
                 bind:value={username}
                 labelText="Username"
             />

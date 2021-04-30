@@ -49,7 +49,8 @@
     let emailError = 'Invalid Email'
     let email
 
-    let resetPasswordStatus
+    let resetPasswordLoading
+    let resetPasswordRes
     let loginLoading
     let joinLoading
 
@@ -72,15 +73,19 @@
             usernameInvalid = true
             return
         }
-        resetPasswordStatus = 'loading'
+        resetPasswordLoading = true
         const res = await api.put('forgot_password', {username}).finally(
             (r)=>{
-                resetPasswordStatus = 'done'
+                console.log(r)
+                resetPasswordLoading = false
                 return r
             }
         )
-        if(res.sent){
-            resetPasswordStatus = 'sent'
+        console.log(res, res.r)
+        usernameInvalid = res.usernameInvalid
+        usernameError = res.usernameError
+        if (res.r){
+            resetPasswordRes = res.r
         }
     }
 
@@ -156,7 +161,7 @@
         const r = await post(`auth/join`, { email, username, password }).finally(
             (r)=>{
                 console.log(r)
-                resetPasswordStatus = 'done'
+                resetPasswordLoading = false
                 return r
             }
         )
@@ -233,7 +238,7 @@
                 <Button kind='ghost' as let:props>
                     <div on:click={resetPassword} {...props}>
                         <p>Reset Password</p>
-                        {#if resetPasswordStatus == 'loading'}
+                        {#if resetPasswordLoading}
                             <div class='right'>
                                 <InlineLoading />
                             </div>
@@ -255,9 +260,9 @@
                 </Button>
             {/if}
     </ButtonSet>
-    {#if resetPasswordStatus == 'sent'}
+    {#if resetPasswordRes}
         <br />
-        <p>Check your email</p>
+        <p>{resetPasswordRes}</p>
     {/if}
     </Column>
 </Row>

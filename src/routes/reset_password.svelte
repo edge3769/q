@@ -8,7 +8,7 @@
         }
         let token = page.query.q
         let res = await api.get('check_reset_password_token', token)
-        if(res != 'true'){
+        if(!res.r){
             this.redirect(302, `login?n=invalid`)
         }
     }
@@ -66,11 +66,15 @@
             return
         }
         let res = await api.put('reset_password', {password}, token).finally(
-            ()=>loading=false
+            (r)=>{
+                loading=false
+                return r
+            }
         )
-        if(res.email) {
+        if(res.r) {
             $notify = 'resetSuccess'
             await post('auth/login', {username, password})
+            goto('/')
         } else {
             $notify = 'invalidLink'
             goto('login')

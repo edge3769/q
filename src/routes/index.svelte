@@ -21,6 +21,8 @@
     import Tag from '../components/Tag.svelte'
     import {goto} from '@sapper/app'
 
+    $: get(page)
+
     let items = []
     let page = 0
     let total = 0

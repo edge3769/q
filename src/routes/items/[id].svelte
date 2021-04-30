@@ -46,7 +46,7 @@
     let tags=[]
     let got
 
-    $: get(visible)
+    $: get(visible, page)
 
     const get = async function(){
         let tagString = JSON.stringify(tags)

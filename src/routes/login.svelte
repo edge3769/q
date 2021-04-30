@@ -235,7 +235,7 @@
                         {/if}
                     </div>
                 </Button>
-                <Button kind='ghost' as let:props>
+                <!-- <Button kind='ghost' as let:props>
                     <div on:click={resetPassword} {...props}>
                         <p>Reset Password</p>
                         {#if resetPasswordLoading}
@@ -244,7 +244,7 @@
                             </div>
                         {/if}
                     </div>                
-                </Button>
+                </Button> -->
             {/if}
             
             {#if newUser}
@@ -260,10 +260,10 @@
                 </Button>
             {/if}
     </ButtonSet>
-    {#if resetPasswordRes}
+    <!-- {#if resetPasswordRes}
         <br />
         <p>{resetPasswordRes}</p>
-    {/if}
+    {/if} -->
     </Column>
 </Row>
 

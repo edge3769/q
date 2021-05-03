@@ -80,7 +80,7 @@
         }
         let data = {
             username: $username,
-            open: $open,
+            // open: $open,
             name,
             tags,
         }
@@ -105,11 +105,11 @@
     <title>Add Room</title>
 </svelte:head>
 
-<Row noGutter>
+<!-- <Row noGutter>
     <Column>
         <Checkbox bind:checked={$open} labelText={openLabel} />
     </Column>
-</Row>
+</Row> -->
 
 {#if $open}
     <Tag bind:tags />

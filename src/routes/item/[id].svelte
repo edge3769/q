@@ -26,7 +26,7 @@
     let { session } = stores()
 
     let itext
-    if(item.itext !== 'undefined'){
+    if(item.itext){
         itext = parseMarkdown(item.itext)
     }
 </script>

@@ -108,6 +108,11 @@
       {#if show}
         <SideNavLink bind:ref={installRef} on:click={install} href='' text='Add To Homescreen'/>
       {/if}
+      <SideNavMenu text='Rooms'>
+        <SideNavLink isSelected={$page.path.split('/')[1] == 'rooms' ? true : false} href='rooms' text='All rooms'/>
+        <SideNavLink isSelected={$page.path.split('/')[1] == 'my_rooms' ? true : false} href='my_rooms' text='My rooms'/>
+        <SideNavLink isSelected={$page.path.split('/')[1] == 'add_room' ? true : false} href='add_room' text='Add room'/>
+      </SideNavMenu>
       <SideNavLink isSelected={$page.path.split('/')[1] == 'add_item' ? true : false} href='add_item' text='Add Item'/>
       <SideNavLink isSelected={$page.path.split('/')[1] == 'items' ? true : false}  href='items/{$session.user.id}' text='My Items'/>
       <SideNavLink isSelected={$page.path.split('/')[1] == 'edit' ? true : false}  href='edit' text='Edit'/>

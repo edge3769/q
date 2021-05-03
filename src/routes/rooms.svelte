@@ -1,64 +1,74 @@
-<script context='module'>
-    import * as api from 'api'
-    export async function preload({}, {user}){
+<script context='module'> 
+    export async function preload({params}, {user}){
         if(!user){
-            this.redirect(302, 'enter')
+            this.redirect('302', 'enter')
         }
-        let rooms
-        let {items, total, page} = await api.get('xrooms', user.token) || {}
-        if (Array.isArray(items)) {
-            rooms = items
-        } else {
-            rooms = []
-        }
-        return {rooms, total, page, user}
+        return {user}
     }
 </script>
 
 <script>
-    export let rooms, total, page, user
+    export let user
     import {
         Row,
-        Link,
-        Column,
+        Column
     } from 'carbon-components-svelte'
-    import {onMount} from 'svelte'
     import Tag from '../components/Tag.svelte'
+    import * as api from 'api'
     import { goto } from '@sapper/app'
+    import {
+        roomTags
+    } from '../stores.js'
 
-    let tags
+    let rooms = []
+    let page = 0
+    let total = 0
+    let got
 
-    $: if(typeof document != 'undefined' && total>100 && document.body.scrollTop==document.body.scrollHeight){
-        page++
-        get()
-    }
-
-    let go=(room)=>{
+    let go=async(room)=>{
+        await api.put('join', {id: room.id}, user.token)
         goto(`room/${room.id}`)
     }
 
-    let get=async()=>{
-        let tagString = JSON.stringify(tags)
-        let res = await api.get(`xrooms?tags=${tagString}&page=${page}`, user.token)
-        rooms = res.items
+    let get = async function(){
+        let tagString = JSON.stringify($roomTags)
+        let url = `rooms?tags=${tagString}&visible=1&page=${page+1}`
+        let res = await api.get(url, user.token)
+        if(Array.isArray(res.items)){
+            rooms = res.items
+            // rooms.forEach(r=> console.log(r.name, r.s))
+        }
         total = res.total
+        got = true
+
     }
 </script>
 
-<Tag on:change={get} bind:tags />
+<svelte:head>
+    <title>Apexlinks</title>
+</svelte:head>
+
+<Tag on:change={get} bind:tags={$roomTags} />
 
 {#each rooms as room}
     <br />
     <Row noGutter>
         <Column>
-            <p class:unseen={room.unseen} class='item' on:click={go(room)}>{room.name}</p>
+            <p class:unseen={room.unseen} class='item' href='' on:click={go(room)}>{room.name}</p>
         </Column>
     </Row>
 {/each}
 
+{#if got && total < 1}
+    <Row noGutter>
+        <Column>
+            <p>There don't seem to be any results</p>        
+        </Column>
+    </Row>
+{/if}
+
 <style>
     .item {
-        width: min-content;
         cursor: pointer; 
     }
     .item:hover {
@@ -66,5 +76,5 @@
     }
     .unseen {
         font-weight: 600;
-    }
+    }    
 </style>

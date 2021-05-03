@@ -79,7 +79,7 @@
         {#if !user.items_empty}
             <Link href='items/{user.id}'>Items</Link>
         {/if}
-        {#if $session.user.username == user.username}
+        {#if $session.user && $session.user.username == user.username}
             <Link href='edit'>Edit</Link>
         {/if}
     </Column>

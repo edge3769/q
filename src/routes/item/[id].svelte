@@ -41,11 +41,15 @@
     {/if}
     <Column lg={4} sm={4} md={4} xlg={4}>
         {#if item.name}
-            <h2>{item.name}</h2>
+            {#if item.redirect && item.link}
+                <h1><a class='blank-link' href={item.link || ''}>{item.name}</a></h1>
+            {:else}
+                <h2>{item.name}</h2>
+            {/if}
         {/if}
-        {#if item.itype}
+        <!-- {#if item.itype}
             <p>{item.itype}</p>
-        {/if}
+        {/if} -->
         {#if item.address}
             <p>{item.address}</p>
         {/if}
@@ -68,10 +72,21 @@
 
 <br />
 
-{#if itext}
+{#if !item.redirect && itext}
     <Row noGutter>
         <Column lg={6} sm={6} md={6} xlg={6}>
             <div>{@html itext}</div>
         </Column>
     </Row>
 {/if}
+
+<style>
+    .blank-link {
+        text-decoration: none;
+    }
+
+    .blank-link:hover {
+        cursor: pointer;
+        color: rgb(50, 50, 211);
+    }
+</style>

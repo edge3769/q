@@ -1,6 +1,5 @@
 import * as api from './node_modules/api'
 import terminate from './node_modules/terminate'
-import redirect from './node_modules/redirect'
 
 import 'dotenv/config'
 import io from 'socket.io'

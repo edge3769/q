@@ -9,14 +9,19 @@ function simpleStore() {
     }
 }
 
+export const username = simpleStore()
 export const notify = simpleStore()
 export const sort = simpleStore()
 export const itype = simpleStore()
 export const whose = simpleStore()
+export const open = simpleStore()
+export const context = simpleStore()
 export const myItype = simpleStore()
 export const userItype = simpleStore()
 export const logged = simpleStore()
+export const myTags = simpleStore()
 export const selfTags = simpleStore()
+export const roomTags = simpleStore()
 export const itemTags = simpleStore()
 export const userTags = simpleStore()
 export const eventTags = simpleStore()

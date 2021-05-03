@@ -28,6 +28,7 @@
     import Tag from '../../components/Tag.svelte'
     import Image from '../../components/Image.svelte'
     import Input from '../../components/Input/Input.svelte'
+    import { abslink } from 'utils'
 
     $: itype = initialCaps(itype)
 
@@ -43,6 +44,9 @@
     let image = item.image
     let name = item.name
     let tags = item.tags
+
+    let linkInvalid
+    let linkError = 'Add a url scheme to the link, something like "http://, at the beginning'
 
     let delOpen
     let delLoading
@@ -72,6 +76,11 @@
 
     const edit = async function(){
         editLoading = true
+        if(!abslink.test(link)){
+            linkInvalid = true
+            editLoading = false
+            return
+        }
         let data = {
             itext,
             id: item.id,
@@ -135,11 +144,16 @@
                 bind:invalid={nameInvalid}
                 invalidText='Name taken'
             />
-            <TextInput labelText="Item type" bind:value={itype} />
+            <!-- <TextInput labelText="Item type" bind:value={itype} /> -->
             <Checkbox bind:checked={redirect} 
                 labelText="Let the item's listing redirect to a link" />
             {#if redirect}
-                <TextInput labelText='Link' bind:value={link} />
+                <Input 
+                    invalid={linkInvalid}
+                    invalidText={linkError}
+                    labelText='Link' 
+                    bind:value={link} 
+                />
             {:else}
                 <TextArea placeholder='Description(Markdown)' labelText="Description(markdown)" bind:value={itext} />
             {/if}

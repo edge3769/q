@@ -9,6 +9,7 @@
   import { isSideNavOpen, logged } from '../stores.js'
   import {
     SkipToContent,
+    SideNavMenu,
     SideNavItems,
     SideNav,
     Header

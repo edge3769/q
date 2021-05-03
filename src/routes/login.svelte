@@ -161,7 +161,7 @@
         const r = await post(`auth/join`, { email, username, password }).finally(
             (r)=>{
                 console.log(r)
-                resetPasswordLoading = false
+                joinLoading = false
                 return r
             }
         )

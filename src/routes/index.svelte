@@ -67,9 +67,9 @@
                     {#if item.user}
                         <p class='bx--link--sm'>{item.user}</p>
                     {/if}
-                    {#if item.itype}
+                    <!-- {#if item.itype}
                         <p class='bx--link--sm'>{item.itype}</p>
-                    {/if}
+                    {/if} -->
                 </div>
         </div>
     </Row>

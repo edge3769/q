@@ -96,7 +96,7 @@
                 labelText="Name"
                 bind:value={name} 
             />
-            <TextInput labelText="Item Type" bind:value={itype} />
+            <!-- <TextInput labelText="Item Type" bind:value={itype} /> -->
             <Checkbox bind:checked={redirect} 
                 labelText="Let the item's listing redirect to a link" />
             {#if redirect}

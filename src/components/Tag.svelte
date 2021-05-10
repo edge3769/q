@@ -1,19 +1,30 @@
 <script>
     export let tags = []
+    export let tagGroups = []
     export let is_focused = false
-    export let placeholder = 'Add Tag'
     import { createEventDispatcher } from 'svelte'
+    import TagInput from './TagInput.svelte'
+    import { onMount } from 'svelte'
     import {
         Tag,
         Row,
         Column,
-        TextInput
     } from 'carbon-components-svelte'
+    import { stores } from '@sapper/app'
+
+    let { session } = stores()
+
+    onMount(()=>{
+        if($session.user){
+            tagGroups = $session.user.tagGroups
+        }
+    })
 
     $: if(ref && is_focused) ref.focus()
 
     const dispatch = createEventDispatcher()
 
+    let tagGroup = false
     let focused
     let value
     let open
@@ -31,16 +42,25 @@
 
     const keydown=(e)=>{
         switch(e.keyCode){
-            case 32:
-                if (focused){
-                    value = value.split(' ')[0]
-                    add()
-                }
+            // case 32:
+            //     if (focused){
+            //         value = value.split(' ')[0]
+            //         add()
+            //     }
+            //     break
             case 13:
                 if (focused){
                     add()
                 }
         }
+    }
+
+    const toggleTagGroup=()=>{
+        tagGroup = !tagGroup
+    }
+
+    const initCreate=()=>{
+        return
     }
 
     const add=()=>{
@@ -67,7 +87,15 @@
 
 <Row noGutter>
     <Column xlg={4} lg={4} md={4} sm={4}>
-        <TextInput bind:ref placeholder={placeholder} on:focus={focus} on:blur={blur} bind:value />
+        <TagInput 
+            bind:ref 
+            on:focus={focus}
+            on:click={toggleTagGroup}
+            on:blur={blur} 
+            bind:value
+            placeholder={tags.length > 0 ? `${tags.length} ${tags.length > 1 ? 'tags' : 'tag'}` : 'Add tag'}
+            {...$$restProps}
+        />
         <slot />
     </Column>
 </Row>
@@ -80,6 +108,14 @@
                     Clear
                 </Tag>
             {/if}
+            <!-- {#if tagGroup}
+                <Tag on:click={initCreate} type='magenta'>
+                    All tag groups
+                </Tag>
+                <Tag on:click={initCreate} type='magenta'>
+                    New tag group
+                </Tag>
+            {/if} -->
             {#each tags as tag}
                 <Tag filter on:click={del(tag)}>{tag}</Tag>
             {/each}

@@ -56,12 +56,13 @@
 {#each items as item}
     <br />
     <Row noGutter>
-        <div on:click={goto(`item/${item.id}`)} class='pointer item'>
-            {#if item.image}
-                <img style='vertical-align: top;' height='52px' width='52px' alt='profile pic' src={item.image}>
-            {:else}
-                <img style='vertical-align: top;' height='52px' width='52px' alt='profile pic' src='/placeholder.png'>
-            {/if}
+        <Column lg={1} sm={1} md={1} xlg={1}>
+            <div on:click={goto(`item/${item.id}`)} class='pointer item'>
+                {#if item.image}
+                    <img style='vertical-align: top;' height='52px' width='52px' alt='profile pic' src={item.image}>
+                {:else}
+                    <img style='vertical-align: top;' height='52px' width='52px' alt='profile pic' src='/placeholder.png'>
+                {/if}
                 <div class='label'>
                     <h4>{item.name}</h4>
                     {#if item.user}
@@ -71,7 +72,8 @@
                         <p class='bx--link--sm'>{item.itype}</p>
                     {/if} -->
                 </div>
-        </div>
+            </div>
+        </Column>
     </Row>
 {/each}
 

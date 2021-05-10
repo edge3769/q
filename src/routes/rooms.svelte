@@ -36,7 +36,6 @@
         let res = await api.get(url, user.token)
         if(Array.isArray(res.items)){
             rooms = res.items
-            // rooms.forEach(r=> console.log(r.name, r.s))
         }
         total = res.total
         got = true

@@ -20,11 +20,11 @@
         Link,
         Row
     } from 'carbon-components-svelte'
-    import User16 from 'carbon-icons-svelte/lib/User16'
-    import Phone16 from 'carbon-icons-svelte/lib/Phone16'
-    import Earth16 from 'carbon-icons-svelte/lib/Earth16'
-    import Email16 from 'carbon-icons-svelte/lib/Email16'
-    import Location16 from 'carbon-icons-svelte/lib/Location16'
+    import User20 from 'carbon-icons-svelte/lib/User20'
+    import Phone20 from 'carbon-icons-svelte/lib/Phone20'
+    import Earth20 from 'carbon-icons-svelte/lib/Earth20'
+    import Email20 from 'carbon-icons-svelte/lib/Email20'
+    import Location20 from 'carbon-icons-svelte/lib/Location20'
     import { stores } from '@sapper/app'
     import {parseMarkdown} from 'utils'
 
@@ -37,45 +37,44 @@
 <Row>
     {#if user.image}
         <Column lg={2} sm={2} md={2} xlg={2}>
-            <div style='width: 111px; height: 111px;'>
-                <img style='width: 100%; height: 100%' width=100 height=100 alt='userImage' src={user.image}>
-            </div>
+            <img style='width: 100%;' alt='user display _image' src={user.image}>
         </Column>
     {/if}
     <Column lg={4} sm={4} md={4} xlg={4}>
         {#if user.name}
-            <p>{user.name}</p>
+            <p style='font-weight: 600;'>{user.name}</p>
         {/if}
         {#if user.username}
             <div>
-                <User16 />
-                <span>{user.username}</span>
+                <User20 />
+                <span class='heading'>{user.username}</span>
             </div>
         {/if}
         {#if user.address}
             <div>
-                <Location16 />
-                <span>{user.address}</span>
+                <Location20 />
+                <span class='heading'>{user.address}</span>
             </div>
         {/if}
         {#if user.show_email && user.email}
             <div>
-                <Email16 />
-                <span>{user.email}</span>
+                <Email20 />
+                <span class='heading'>{user.email}</span>
             </div>
         {/if}
         {#if user.website}
             <div>
-                <Earth16 />
-                <Link href={user.website}>{user.website}</Link>
+                <Earth20 />
+                <a class='heading bx--link' href={user.website}>{user.website}</a>
             </div>
         {/if}
         {#if user.phone}
             <div>
-                <Phone16 />
-                <span>{user.phone}</span>
+                <Phone20 />
+                <span class='heading'>{user.phone}</span>
             </div>
         {/if}
+        <br />
         {#if !user.items_empty}
             <Link href='items/{user.id}'>Items</Link>
         {/if}
@@ -94,3 +93,7 @@
         {/if}
     </Column>
 </Row>
+
+<style>
+    
+</style>

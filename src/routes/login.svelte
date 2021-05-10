@@ -29,17 +29,32 @@
     import { post, checkEmail } from 'utils.js'
     import NavNotification from '../components/Notifications/NavNotification.svelte'
 
+    // $: validateEmail(email)
+    // $: validatePassword(password)
+    // $: validateUsername(username)
+
+    $: if(newUser) {
+        userText = 'Login instead'
+    } else {
+        userText = 'Join instead'
+    }
+
     if(n && process.browser) {
         $notify = n
         goto('login')
     }
 
     let newUser
+    let userText
 
     let { session } = stores();
     let usernameInvalid = false
     let username = null
     let usernameError
+
+    let usernameRef
+    let passwordRef
+    let emailRef
 
     let passwordInvalid = false
     let password = null
@@ -54,7 +69,7 @@
     let loginLoading
     let joinLoading
 
-    const keydown = (e) => {
+    const keydown=(e)=>{
         if(e.ctrlKey){
             switch(e.keyCode){
                 case 13:
@@ -68,6 +83,25 @@
         }
     }
 
+    const validateEmail=()=>{
+        if(email) emailInvalid = false
+        if(emailRef) emailRef.focus()
+    }
+
+    const validateUsername=()=>{
+        if(username) usernameInvalid = false
+        if(usernameRef) usernameRef.focus()
+    }
+
+    const validatePassword=()=>{
+        if(password) passwordInvalid = false
+        if(passwordRef) passwordRef.focus()
+    }
+
+    const toggleNewUser=()=>{
+        newUser = !newUser
+    }
+
     const resetPassword=async()=>{
         if(!username){
             usernameInvalid = true
@@ -76,12 +110,10 @@
         resetPasswordLoading = true
         const res = await api.put('forgot_password', {username}).finally(
             (r)=>{
-                console.log(r)
                 resetPasswordLoading = false
                 return r
             }
         )
-        console.log(res, res.r)
         usernameInvalid = res.usernameInvalid
         usernameError = res.usernameError
         if (res.r){
@@ -107,7 +139,6 @@
         passwordInvalid=false
         let r = await post('auth/login', { username, password }).finally(
             (r)=>{
-                console.log(r)
                 loginLoading=false
                 return r
             })
@@ -160,7 +191,6 @@
         emailInvalid=false
         const r = await post(`auth/join`, { email, username, password }).finally(
             (r)=>{
-                console.log(r)
                 joinLoading = false
                 return r
             }
@@ -186,7 +216,13 @@
 
 <Row noGutter>
     <Column>
-        <Checkbox bind:checked={newUser} labelText='New User' />
+        <Button
+            kind='ghost'
+            size='small'
+            on:click={toggleNewUser}
+        >
+            {userText}
+        </Button>
     </Column>
 </Row>
 
@@ -197,6 +233,7 @@
                 <Input
                     bind:invalid={emailInvalid}
                     invalidText={emailError}
+                    bind:ref={emailRef}
                     bind:value={email}
                     labelText='Email'
                     focus
@@ -206,13 +243,15 @@
                 bind:invalid={usernameInvalid}
                 invalidText={usernameError}
                 bind:value={username}
+                bind:ref={usernameRef}
                 labelText='Username'
             />
             <Input
                 bind:invalid={passwordInvalid}
                 invalidText={passwordError}
-                bind:value="{password}"
+                bind:value={password}
                 labelText='Password'
+                bind:ref={passwordRef}
                 password
             />
         </FluidForm>

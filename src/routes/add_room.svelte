@@ -15,7 +15,6 @@
         Row,
         Button,
         Column,
-        Checkbox,
         ButtonSet,
         FluidForm,
         InlineLoading
@@ -29,26 +28,27 @@
     let userInvalid
     let nameError
     let userError
-    let openLabel
     let adding
+    let name
+    let tags
 
-    $: if(!$open){
-        openLabel = 'Personal'
-    } else {
-        openLabel = 'Open'
-    }
+    // $: if(!$open){
+    //     openLabel = 'Personal'
+    // } else {
+    //     openLabel = 'Open'
+    // }
 
-    $: change($username)
+    // $: change($username)
 
     $: if(process.browser && $username) {
         setTimeout(checkUser, 123)
     }
 
-    let change=()=>{
-        if($username){
-            name = `${user.username}.${$username}`
-        }
-    }
+    // let change=()=>{
+    //     if($username){
+    //         name = `${user.username}.${$username}`
+    //     }
+    // }
 
     const checkUser=async()=>{
         if($username == '') return
@@ -60,9 +60,6 @@
             userError = 'Not found'
         }
     }
-    
-    let name
-    let tags
 
     const add = async function() {
         adding = true

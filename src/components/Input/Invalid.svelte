@@ -1,4 +1,5 @@
 <script>
+    export let ref
     export let value = ''
     export let focus = true
     export let password = ''
@@ -9,15 +10,13 @@
     } from 'carbon-components-svelte'
     import { onMount } from 'svelte'
 
-    let ref
-
     onMount(()=>{
         if(focus) ref.focus()
     })
 </script>
 
 {#if password}
-    <PasswordInput bind:value bind:ref {...$$restProps} invalid />
+    <PasswordInput on:change bind:value bind:ref {...$$restProps} invalid />
 {:else}
-    <TextInput bind:value bind:ref {...$$restProps} invalid />
+    <TextInput on:change bind:value bind:ref {...$$restProps} invalid />
 {/if}

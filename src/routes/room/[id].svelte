@@ -33,7 +33,6 @@
     let value
     let ref
 
-    $: if(typeof window != 'undefined') console.log(window.scrollY)
 
     $: if(mounted && total > 100 && window.scrollY==0){
         get()

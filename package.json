@@ -17,7 +17,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "helmet": "^4.4.1",
-    "marked": "^2.0.1",
+    "marked": "2.0.3",
     "node-fetch": "^2.6.1",
     "prism-svelte": "^0.4.7",
     "prismjs": "^1.23.0",
@@ -25,6 +25,7 @@
     "sirv": "^1.0.0",
     "socket.io": "^4.0.0",
     "socket.io-client": "^4.0.0",
+    "svelte-paystack": "^0.1.4",
     "uuid": "^8.3.2",
     "web-push": "^3.4.4"
   },

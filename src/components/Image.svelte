@@ -14,7 +14,7 @@
     let labelText
 
     $: if(!image){
-        labelText = 'Add Image'
+        labelText = 'Set Image'
     } else {
         labelText = 'Change Image'
     }

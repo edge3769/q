@@ -7,9 +7,7 @@
             this.redirect(302, 'login')
         }
         let token = page.query.q
-        console.log('t', token)
         let res = await api.get('check_reset_password_token', token)
-        console.log(res, res.r)
         if(!res.r){
             this.redirect(302, `login?n=invalid`)
         }

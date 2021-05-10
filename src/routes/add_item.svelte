@@ -85,7 +85,7 @@
 
 <Image bind:image />
 
-<Tag placeholder={tags.length > 0 ? `${tags.length} tags` : 'Add tag'} bind:tags />
+<Tag bind:tags />
 
 <Row noGutter>
     <Column>

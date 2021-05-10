@@ -1,4 +1,5 @@
 <script>
+    export let ref
     export let value = ''
     export let invalid = false
 
@@ -14,4 +15,4 @@
     }
 </script>
 
-<svelte:component this={current} {...$$restProps} bind:value />
+<svelte:component on:change this={current} {...$$restProps} bind:ref bind:value />

@@ -73,7 +73,7 @@
     }
 
     const edit=async()=>{
-        loading = true
+        loading = true  
         if (!email){
             emailInvalid = true
             emailError = 'Empty'
@@ -98,7 +98,6 @@
             loading = false
             return
         }
-        // if ()
         let data = {
             show_email,
             username,
@@ -133,11 +132,11 @@
 
 <Row noGutter>
     <Column>
-        <Checkbox bind:checked={visible} labelText='Visible'/>
+        <Checkbox bind:checked={visible} labelText='Public'/>
     </Column>
 </Row>
 
-<!-- <Tag placeholder={tags.length > 0 ? `${tags.length} tags` : 'Add tag'} bind:tags /> -->
+<Tag bind:tags />
     
 <Row noGutter>
     <Column>
@@ -154,7 +153,7 @@
             <TextInput labelText="Phone" bind:value={phone} />
             <TextInput labelText="Address" bind:value={address} />
             <TextInput labelText="Website" bind:value={website} />
-            <TextArea rows={11} placeholder='Markdown' labelText='About(Markdown)' bind:value={about} />
+            <TextArea rows={11} placeholder='About (Markdown)' bind:value={about} />
         </FluidForm>
     </Column>
 </Row>

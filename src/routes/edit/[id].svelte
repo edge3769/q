@@ -76,7 +76,7 @@
 
     const edit = async function(){
         editLoading = true
-        if(!abslink.test(link)){
+        if(redirect && !abslink.test(link)){
             linkInvalid = true
             editLoading = false
             return
@@ -133,7 +133,7 @@
     </Column>
 </Row>
 
-<Tag placeholder={tags.length > 0 ? `${tags.length} tags` : 'Add tag'} bind:tags />
+<Tag bind:tags />
 
 <Row noGutter>
     <Column>
@@ -155,7 +155,7 @@
                     bind:value={link} 
                 />
             {:else}
-                <TextArea placeholder='Description(Markdown)' labelText="Description(markdown)" bind:value={itext} />
+                <TextArea placeholder='Description(Markdown)' bind:value={itext} />
             {/if}
         </FluidForm>
     </Column>

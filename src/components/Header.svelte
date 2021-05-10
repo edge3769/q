@@ -115,6 +115,7 @@
       </SideNavMenu>
       <SideNavLink isSelected={$page.path.split('/')[1] == 'add_item' ? true : false} href='add_item' text='Add Item'/>
       <SideNavLink isSelected={$page.path.split('/')[1] == 'items' ? true : false}  href='items/{$session.user.id}' text='My Items'/>
+      <!-- <SideNavLink isSelected={$page.path.split('/')[1] == 'settings' ? true : false}  href='settings' text='Settings'/> -->
       <SideNavLink isSelected={$page.path.split('/')[1] == 'edit' ? true : false}  href='edit' text='Edit'/>
       <SideNavLink text='Exit' href='' on:click={exit} />
     {/if}

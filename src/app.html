@@ -1,0 +1,27 @@
+<!DOCTYPE html> <!--Tells that this is a html document-->
+<html lang="en"> <!-- Opening Tag. Sets the language for the document-->
+  <head> <!-- Extra settings for a document -->
+    <meta charset="utf-8" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <meta name="description" content="List items" />
+    <meta name="theme-color" content="#e0e0e0" />
+    <link rel='apple-touch-icon' sizes="120x120" href="apple-touch-icon-120x120.png">
+    <link rel='apple-touch-icon' sizes="152x152" href="apple-touch-icon-152x152.png">
+    <link rel='apple-touch-icon' sizes="167x167" href="apple-touch-icon-167x167.png">
+    <link rel='apple-touch-icon' sizes="180x180" href="apple-touch-icon-180x180.png">
+    <link rel='apple-touch-icon' sizes="1024x1024" href="apple-touch-icon-1024x1024.png">
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>sapper</title>
+
+    <!-- This contains the contents of the <svelte:head> component, if
+	     the current page has one -->
+    %svelte.head%
+  </head>
+  <body>
+    <div>%svelte.body%</div>
+  </body>
+</html> <!-- Closing tag -->

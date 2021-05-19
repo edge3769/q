@@ -1,6 +1,5 @@
 {
   "type": "module",
-  "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "svelte-kit dev",
@@ -11,13 +10,11 @@
   "dependencies": {
     "@sveltejs/adapter-node": "^1.0.0-next.20",
     "@sveltejs/site-kit": "^1.2.5",
-    "carbon-icons-svelte": "^10.28.0",
     "html-minifier": "^4.0.0",
     "svelte-preprocess": "^4.7.3"
   },
   "devDependencies": {
     "@sveltejs/kit": "next",
-    "carbon-components-svelte": "^0.33.0",
     "svelte": "^3.38.2",
     "vite": "^2.3.0"
   }

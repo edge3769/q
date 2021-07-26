@@ -15,6 +15,6 @@
   },
   "devDependencies": {
     "@sveltejs/kit": "next",
-    "svelte": "^3.38.2",
+    "svelte": "^3.38.2"
   }
 }

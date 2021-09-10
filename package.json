@@ -1,20 +1,22 @@
 {
+  "name": "fast_easy",
   "type": "module",
   "private": true,
   "scripts": {
     "dev": "svelte-kit dev",
     "build": "svelte-kit build",
     "export": "svelte-kit export",
-    "start": "node build"
+    "start": "svelte-kit preview"
   },
   "dependencies": {
     "@sveltejs/adapter-node": "^1.0.0-next.20",
-    "@sveltejs/site-kit": "^1.2.5",
+    "@sveltejs/site-kit": "^1.4.0",
     "html-minifier": "^4.0.0",
-    "svelte-preprocess": "^4.7.3"
+    "svelte-preprocess": "^4.9.3"
   },
   "devDependencies": {
+    "@sveltejs/adapter-static": "^1.0.0-next.18",
     "@sveltejs/kit": "next",
-    "svelte": "^3.38.2"
+    "svelte": "^3.42.4"
   }
 }

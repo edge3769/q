@@ -23,14 +23,6 @@ const min_opts = {
 }
 
 export async function handle({ request, render}) {
-    if(request.headers['x-forwarded-proto'] === 'https' || NODE_ENV === 'development'){} 
-    else {
-        return {
-            headers: {Location: `https://${req.host}${req.path}`},
-            status: 301
-        }
-    }
-
     const response = await render(request)
     if(prerendering && response.headers['content-type'] === 'text/html') {
         response.body = minify(response.body, min_opts)

@@ -21,7 +21,7 @@
   </div>
   <div class="stats-row">
     <div class="icon">
-      <img src="/building.png">
+      <img src="building.png">
     </div>
     <p>24 people going</p>
     <div class="icon heart">

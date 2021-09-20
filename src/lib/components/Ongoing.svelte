@@ -4,7 +4,7 @@
 
 <div class="ongoing">
   <div>
-    <img alt="snapshot icon for trip to jalingo" src="jalingo.png">
+    <img class="img-round" alt="snapshot icon for trip to jalingo" src="jalingo.png">
   </div>
   <div class="details">
     <p class="purple">Ongoing</p>

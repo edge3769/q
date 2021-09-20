@@ -19,10 +19,6 @@ body {
     padding-right: 5rem;
 }
 
-.main .right {
-    padding-left: 2rem;
-}
-
 .progress {
     color: rgb(164, 37, 196);
 }
@@ -51,6 +47,13 @@ body {
     color: rgb(164, 37, 196);
 }
 
+.ongoing-container {
+    width: max-content;
+    overflow: visible;
+    grid-column: 2/-1;
+    grid-row: 2;
+}
+
 .ongoing {
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     border-radius: 4px;
@@ -62,10 +65,8 @@ body {
     column-gap: 1rem;
 }
 
-.right-ongoing {
-    position: absolute;
-    top: 200px;
-    right: 20px;
+.img-round {
+    border-radius: 50%;
 }
 
 .step {
@@ -91,7 +92,7 @@ body {
 }
 
 .step .heading {
-    margin: 0;
+    font-weight: 600;
     align-self: center;
     grid-row: 1;
 }
@@ -108,20 +109,32 @@ body {
     row-gap: 1rem;
 }
 
-.trips {
-    width: max-content;
-}
-
 .trip {
     box-shadow: 0px 100px 80px rgba(0, 0, 0, 0.02), 0px 64.8148px 46.8519px rgba(0, 0, 0, 0.0151852), 0px 38.5185px 25.4815px rgba(0, 0, 0, 0.0121481), 0px 20px 13px rgba(0, 0, 0, 0.01), 0px 8.14815px 6.51852px rgba(0, 0, 0, 0.00785185), 0px 1.85185px 3.14815px rgba(0, 0, 0, 0.00481481);
-    box-shadow: 12pxd 0 37px grey;
-    display: flex;
-    width: 60%;
+    display: grid;
+    grid-template-columns: 70% 30%;
     border-radius: 26px;
-    row-gap: .1rem;
-    flex-direction: column;
+    grid-template-rows: min-content repeat(4, 26px);
     padding: 17px;
-    width: 370px;
+    gap: 1rem 0;
+}
+
+.button-row .icon {
+    display: grid;
+    width: 37px;
+    height: 37px;
+    background-color: #F5F5F5;
+    border-radius: 50%;
+}
+
+.button-row .icon img {
+    justify-self: center;
+    align-self: center;
+}
+
+.trip .image {
+    grid-row: 1;
+    grid-column: 1/-1;
 }
 
 .trip .img {
@@ -129,7 +142,21 @@ body {
     width: 100%;
 }
 
-.trip .icon-row {
+.trip h3 {
+    grid-column: 1/-1;
+    grid-row: 2;
+    margin: 0;
+}
+
+.trip p {
+    grid-column: 1/-1;
+    grid-row: 3;
+    margin: 0;
+}
+
+.trip .button-row {
+    grid-row: 4;
+    grid-column: 1/-1;
     display: flex;
     flex-direction: row;
     justify-content: start;
@@ -138,13 +165,26 @@ body {
 }
 
 .trip .stats-row {
-    display: flex;
-    flex-direction: row;
-    justify-content: start;
-    column-gap: 1em;
-    align-items: center;
+    grid-row: 5;
+    grid-column: 1/-1;
+    display: grid;
+    gap: 1rem 1rem;
+    grid-template-columns: min-content 1fr 1fr;
 }
 
-.trip .heart {
-    float: right;
+.stats-row .building {
+    grid-row: 1;
+    grid-column: 1;
 }
+
+.stats-row .passenger-count {
+    grid-row: 1;
+    grid-column: 2;
+}
+
+.stats-row .heart {
+    grid-column: -1;
+    grid-row: 1;
+}
+
+@media screen {}

@@ -18,9 +18,9 @@ export function init(settings) {
 		amp: false,
 		dev: false,
 		entry: {
-			file: "/./_app/start-d43a9b42.js",
+			file: "/./_app/start-2af7751c.js",
 			css: ["/./_app/assets/start-a8cd1609.css"],
-			js: ["/./_app/start-d43a9b42.js","/./_app/chunks/vendor-03273fa1.js"]
+			js: ["/./_app/start-2af7751c.js","/./_app/chunks/vendor-03273fa1.js"]
 		},
 		fetched: undefined,
 		floc: false,
@@ -50,7 +50,7 @@ const d = decodeURIComponent;
 const empty = () => ({});
 
 const manifest = {
-	assets: [{"file":"building.png","size":536,"type":"image/png"},{"file":"calabar.png","size":113319,"type":"image/png"},{"file":"heart.png","size":747,"type":"image/png"},{"file":"jalingo.png","size":4134,"type":"image/png"},{"file":"leaf.png","size":501,"type":"image/png"},{"file":"leaf.png4","size":546,"type":null},{"file":"map.png","size":388,"type":"image/png"},{"file":"navigation.png","size":392,"type":"image/png"},{"file":"poppins.ttf","size":158192,"type":"font/ttf"},{"file":"sail.png","size":724,"type":"image/png"},{"file":"select.png","size":488,"type":"image/png"},{"file":"taxi.png","size":591,"type":"image/png"},{"file":"trip-card/building.png","size":565,"type":"image/png"},{"file":"trip-card/leaf.png","size":546,"type":"image/png"},{"file":"trip-card/map.png","size":388,"type":"image/png"},{"file":"trip-card/navigation.png","size":417,"type":"image/png"}],
+	assets: [{"file":"building.png","size":536,"type":"image/png"},{"file":"calabar.png","size":117961,"type":"image/png"},{"file":"heart.png","size":747,"type":"image/png"},{"file":"jalingo.png","size":5975,"type":"image/png"},{"file":"leaf.png","size":501,"type":"image/png"},{"file":"leaf.png4","size":546,"type":null},{"file":"map.png","size":388,"type":"image/png"},{"file":"navigation.png","size":392,"type":"image/png"},{"file":"poppins.ttf","size":158192,"type":"font/ttf"},{"file":"sail.png","size":724,"type":"image/png"},{"file":"select.png","size":488,"type":"image/png"},{"file":"taxi.png","size":591,"type":"image/png"}],
 	layout: ".svelte-kit/build/components/layout.svelte",
 	error: ".svelte-kit/build/components/error.svelte",
 	routes: [
@@ -75,7 +75,7 @@ const module_lookup = {
 	".svelte-kit/build/components/layout.svelte": () => import("./components\\layout.svelte"),".svelte-kit/build/components/error.svelte": () => import("./components\\error.svelte"),"src/routes/index.svelte": () => import("..\\..\\src\\routes\\index.svelte")
 };
 
-const metadata_lookup = {".svelte-kit/build/components/layout.svelte":{"entry":"/./_app/layout.svelte-196d7d0a.js","css":[],"js":["/./_app/layout.svelte-196d7d0a.js","/./_app/chunks/vendor-03273fa1.js"],"styles":null},".svelte-kit/build/components/error.svelte":{"entry":"/./_app/error.svelte-0d5b1a07.js","css":[],"js":["/./_app/error.svelte-0d5b1a07.js","/./_app/chunks/vendor-03273fa1.js"],"styles":null},"src/routes/index.svelte":{"entry":"/./_app/pages/index.svelte-4c4b476f.js","css":["/./_app/assets/pages/index.svelte-f1fe44be.css"],"js":["/./_app/pages/index.svelte-4c4b476f.js","/./_app/chunks/vendor-03273fa1.js"],"styles":null}};
+const metadata_lookup = {".svelte-kit/build/components/layout.svelte":{"entry":"/./_app/layout.svelte-cbb98d95.js","css":[],"js":["/./_app/layout.svelte-cbb98d95.js","/./_app/chunks/vendor-03273fa1.js"],"styles":null},".svelte-kit/build/components/error.svelte":{"entry":"/./_app/error.svelte-d34c1439.js","css":[],"js":["/./_app/error.svelte-d34c1439.js","/./_app/chunks/vendor-03273fa1.js"],"styles":null},"src/routes/index.svelte":{"entry":"/./_app/pages/index.svelte-169293bf.js","css":["/./_app/assets/pages/index.svelte-f1fe44be.css"],"js":["/./_app/pages/index.svelte-169293bf.js","/./_app/chunks/vendor-03273fa1.js"],"styles":null}};
 
 async function load_component(file) {
 	return {

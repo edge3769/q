@@ -1,11 +1,12 @@
 import adapter from '@sveltejs/adapter-static'
 
 export default {
-	compilerOptions: {
-		cssHash: (hash, css, name, filename) => {
-			return `${filename}-${name}`
-		}
-	},
+	// compilerOptions: {
+	// 	cssHash: ({hash, css, name, filename}) => {
+	// 	// default
+	// 		return `svelte-${hash(css)}`
+	// 	}
+	// },
 	kit: {
 		adapter: adapter({
 			pages: 'build',

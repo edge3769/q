@@ -475,10 +475,10 @@
   "resolved" "https://registry.npmjs.org/svelte-hmr/-/svelte-hmr-0.14.3.tgz"
   "version" "0.14.3"
 
-"svelte-preprocess@^4.9.3":
-  "integrity" "sha512-dLwYFDCqTXoNr4sh2qGNPo9UxdJgIEK4qZHRz++Rh+9JQ/IAGMQwyS9qQCLBm6GYNPSMbWZaV6Hf+gknqkXWXw=="
-  "resolved" "https://registry.npmjs.org/svelte-preprocess/-/svelte-preprocess-4.9.3.tgz"
-  "version" "4.9.3"
+"svelte-preprocess@^4.9.4":
+  "integrity" "sha512-Z0mUQBGtE+ZZSv/HerRSHe7ukJokxjiPeHe7iPOIXseEoRw51H3K/Vh6OMIMstetzZ11vWO9rCsXSD/uUUArmA=="
+  "resolved" "https://registry.npmjs.org/svelte-preprocess/-/svelte-preprocess-4.9.4.tgz"
+  "version" "4.9.4"
   dependencies:
     "@types/pug" "^2.0.4"
     "@types/sass" "^1.16.0"
@@ -487,10 +487,10 @@
     "sorcery" "^0.10.0"
     "strip-indent" "^3.0.0"
 
-"svelte@^3.23.0", "svelte@^3.37.0", "svelte@^3.38.2", "svelte@^3.42.4", "svelte@>=3.19.0":
-  "integrity" "sha512-DqC0AmDdBrrbIA+Kzl3yhBb6qCn4vZOAfxye2pTnIpinLegyagC5sLI8Pe9GPlXu9VpHBXIwpDDedpMfu++epA=="
-  "resolved" "https://registry.npmjs.org/svelte/-/svelte-3.42.4.tgz"
-  "version" "3.42.4"
+"svelte@^3.23.0", "svelte@^3.37.0", "svelte@^3.38.2", "svelte@^3.42.6", "svelte@>=3.19.0":
+  "integrity" "sha512-lAcryr9Do2PeGtbodspX5I4kWj4yWYAa2WGpDCwzNkP3y8WZTxigMd4/TMO1rBZEOkMYGn4ZXrbAlSEGhK6q3w=="
+  "resolved" "https://registry.npmjs.org/svelte/-/svelte-3.42.6.tgz"
+  "version" "3.42.6"
 
 "uglify-js@^3.5.1":
   "integrity" "sha512-rRprLwl8RVaS+Qvx3Wh5hPfPBn9++G6xkGlUupya0s5aDmNjI7z3lnRLB3u7sN4OmbB0pWgzhM9BEJyiWAwtAA=="

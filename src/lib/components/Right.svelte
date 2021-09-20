@@ -3,15 +3,9 @@
   import Ongoing from "$lib/components/Ongoing.svelte";
 </script>
 
-<div class="ongoing">
-  <Ongoing />
+<div class="trips">
+  <div class="right-ongoing">
+    <Ongoing />
+  </div>
+  <Trip />
 </div>
-<Trip />
-
-<style>
-  .ongoing {
-    position: absolute;
-    top: 200px;
-    right: 20px;
-  }
-</style>

@@ -26,17 +26,8 @@
   ]
 </script>
 
-<div class="main">
+<div class="steps">
   {#each steps as step}
     <Step color={step.color} icon_path={step.path} heading={step.heading} body={step.text} />
   {/each}
 </div>
-
-<style>
-  .main {
-    display: flex;
-    flex-direction: column;
-    row-gap: 1rem;
-  }
-</style>
-

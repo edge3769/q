@@ -1,0 +1,150 @@
+@font-face {
+    font-family: Poppins;
+    src: url('poppins.ttf');
+    font-weight: 400;
+    line-height: 124.5%;
+}
+
+body {
+    font-family: Poppins;
+}
+
+.main {
+    display: flex;
+    flex-direction: row;
+}
+
+.main .left {
+    width: 50%;
+    padding-right: 5rem;
+}
+
+.main .right {
+    padding-left: 2rem;
+}
+
+.progress {
+    color: rgb(164, 37, 196);
+}
+
+.progress::-webkit-progress-bar {
+    border: none;
+    /* color: rgb(164, 37, 196); */
+}
+
+.progress::-webkit-progress-value {
+    background-color: rgb(164, 37, 196);
+}
+
+.progress::-moz-progress-value {
+    background-color: rgb(164, 37, 196);
+}
+
+
+/* TODO */
+
+.progress::-moz-progress-bar {
+    /* color: rgb(164, 37, 196); */
+}
+
+.purple {
+    color: rgb(164, 37, 196);
+}
+
+.ongoing {
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    border-radius: 4px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 18px;
+    display: flex;
+    flex-direction: row;
+    column-gap: 1rem;
+}
+
+.right-ongoing {
+    position: absolute;
+    top: 200px;
+    right: 20px;
+}
+
+.step {
+    display: grid;
+    gap: .1rem 1rem;
+    grid-template-columns: 37px 1fr;
+    grid-template-rows: 37px min-content;
+}
+
+.step .icon {
+    display: grid;
+    border-radius: 13px;
+    height: 37px;
+    width: 37px;
+    /* padding: 0.3rem; */
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.step .icon img {
+    justify-self: center;
+    align-self: center;
+}
+
+.step .heading {
+    margin: 0;
+    align-self: center;
+    grid-row: 1;
+}
+
+.step .body {
+    margin: 0;
+    grid-column: 2;
+    grid-row: 2;
+}
+
+.steps {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+}
+
+.trips {
+    width: max-content;
+}
+
+.trip {
+    box-shadow: 0px 100px 80px rgba(0, 0, 0, 0.02), 0px 64.8148px 46.8519px rgba(0, 0, 0, 0.0151852), 0px 38.5185px 25.4815px rgba(0, 0, 0, 0.0121481), 0px 20px 13px rgba(0, 0, 0, 0.01), 0px 8.14815px 6.51852px rgba(0, 0, 0, 0.00785185), 0px 1.85185px 3.14815px rgba(0, 0, 0, 0.00481481);
+    box-shadow: 12pxd 0 37px grey;
+    display: flex;
+    width: 60%;
+    border-radius: 26px;
+    row-gap: .1rem;
+    flex-direction: column;
+    padding: 17px;
+    width: 370px;
+}
+
+.trip .img {
+    background-color: rgba(0, 0, 0, 0);
+    width: 100%;
+}
+
+.trip .icon-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    column-gap: 1em;
+}
+
+.trip .stats-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    column-gap: 1em;
+    align-items: center;
+}
+
+.trip .heart {
+    float: right;
+}

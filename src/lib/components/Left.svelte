@@ -4,6 +4,8 @@
   import Steps from "$lib/components/Steps.svelte";
 </script>
 
-<h2>{heading}</h2>
+<p class="tagline text-clr">Easy and Fast</p>
+
+<p class="heading">{heading}</p>
 
 <Steps />

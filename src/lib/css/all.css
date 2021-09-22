@@ -1,0 +1,114 @@
+/* @import url('$lib/css/progress.css'); */
+@import url('$lib/css/progress.css');
+@import url('$lib/css/colors.css');
+@import url('$lib/css/steps.css');
+@import url('$lib/css/trip.css');
+@import url('$lib/css/left.css');
+
+:root {
+    --purple: #8A79DF;
+    --grey: #84829A;
+    --light-grey: #F5F5F5;
+    --text-clr: #5E6282;
+    --almost-black: #14183E;
+    --reg-font-size: 16px;
+    --reg-line-height: 19.92px;
+}
+
+@font-face {
+    font-family: Poppins;
+    src: url('poppins.ttf');
+    font-weight: 400;
+    line-height: 124.5%;
+}
+
+body {
+    font-family: Poppins;
+}
+
+.main {
+    display: grid;
+    width: 90%;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: min-content;
+    grid-template-areas: 'a b';
+    gap: 0 140px;
+}
+
+.right {
+    max-width: max-content;
+    grid-area: 'b';
+    display: grid;
+    align-content: center;
+}
+
+@media (max-width: 1179px) {
+    .main {
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+        grid-template-areas:'a''b';
+    }
+}
+
+/* TODO */
+
+.ongoing-container {
+    width: 263px;
+    overflow: visible;
+    grid-column: 2/-1;
+    grid-row: 2;
+}
+
+.ongoing {
+    box-shadow: 0px 100px 80px rgba(0, 0, 0, 0.02), 0px 64.8148px 46.8519px rgba(0, 0, 0, 0.0151852), 0px 38.5185px 25.4815px rgba(0, 0, 0, 0.0121481), 0px 20px 13px rgba(0, 0, 0, 0.01), 0px 8.14815px 6.51852px rgba(0, 0, 0, 0.00785185), 0px 1.85185px 3.14815px rgba(0, 0, 0, 0.00481481);
+    border-radius: 4px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 18px;
+    display: flex;
+    flex-direction: row;
+    column-gap: 1rem;
+}
+
+.img-round {
+    border-radius: 50%;
+}
+
+.button-row .icon {
+    display: grid;
+    width: 37px;
+    height: 37px;
+    background-color: var(--light-grey);
+    border-radius: 50%;
+}
+
+.icon img {
+    justify-self: center;
+    align-self: center;
+}
+
+.stats-row {
+    margin-top: .7rem;
+    grid-row: 5;
+    grid-column: 1/-1;
+    display: grid;
+    gap: 1rem 1rem;
+    grid-template-columns: min-content 1fr 1fr;
+}
+
+.stats-row .building {
+    grid-row: 1;
+    grid-column: 1;
+}
+
+.stats-row .passenger-count {
+    grid-row: 1;
+    grid-column: 2/-1;
+}
+
+.stats-row .heart {
+    grid-column: -1;
+    grid-row: 1;
+}

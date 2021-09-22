@@ -1,0 +1,44 @@
+@media (max-width: 436px) {
+    .step {
+        max-width: fit-content;
+    }
+}
+
+.step {
+    display: grid;
+    gap: 0 1rem;
+    grid-template-columns: 37px fit-content(100%);
+    grid-template-rows: 1fr min-content;
+}
+
+.step .heading {
+    color: var(--text-clr);
+    font-weight: 700;
+    font-size: var(--reg-font-size);
+    line-height: var(--reg-line-height);
+    margin: 0;
+    grid-row: 1;
+    grid-column: 2;
+}
+
+.step .body {
+    margin: 0;
+    color: var(--text-clr);
+    grid-row: 2;
+    grid-column: 2;
+}
+
+.steps {
+    display: grid;
+    gap: 52px 0;
+}
+
+.step .icon {
+    display: grid;
+    border-radius: 13px;
+    height: 37px;
+    width: 37px;
+    align-self: center;
+    justify-self: center;
+    grid-row: 1;
+}

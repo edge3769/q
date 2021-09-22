@@ -1,5 +1,5 @@
 <script>
-  import "$lib/all.css"
+  import "$lib/css/all.css"
   import Left from "$lib/components/Left.svelte";
   import Right from "$lib/components/Right.svelte";
 </script>

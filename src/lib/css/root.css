@@ -1,13 +1,37 @@
+@import url('$lib/css/ongoing.css');
+@import url('$lib/css/progress.css');
+@import url('$lib/css/colors.css');
+@import url('$lib/css/right.css');
+@import url('$lib/css/steps.css');
+@import url('$lib/css/trip.css');
+@import url('$lib/css/left.css');
+@import url('$lib/css/main.css');
+
 :root {
+    --small-breakpoint: 73.6875rem;
+    --tiny-breakpoint: 27.25rem;
     --purple: #8A79DF;
     --grey: #84829A;
     --light-grey: #F5F5F5;
     --text-clr: #5E6282;
     --almost-black: #14183E;
-    --reg-font-size: 16px;
+    --strong: 600;
+    --stronger: 700;
     --line-height: 1.245;
     --space-3: 1.8125rem;
     --space-2: 1.125rem;
     --space-1: .8125rem;
-    font-size: 16px;
+    font-size: 15px;
+}
+
+@font-face {
+    font-family: Poppins;
+    src: url('poppins.ttf');
+    font-weight: 400;
+    line-height: 124.5%;
+}
+
+* {
+    font-family: Poppins;
+    line-height: var(--line-height);
 }

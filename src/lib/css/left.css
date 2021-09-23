@@ -1,19 +1,18 @@
 .left {
     max-width: fit-content;
-    grid-area: 'a';
 }
 
 .left > .heading {
     font-weight: 700;
-    font-size: 50px;
-    line-height: 64.5px;
+    font-size: 3.125rem;
+    line-height: 4.03125rem;
     color: var(--almost-black)
 }
 
 .left > .tagline {
-    margin: 0 0 15px 0;
+    margin: 0 0 0.9375rem 0;
 }
 
 .left > .heading {
-    margin: 0 0 35px 0;
+    margin: 0 0 2.1875rem 0;
 }

@@ -1,11 +1,4 @@
-<script>
-  import Ongoing from "$lib/components/Ongoing.svelte";
-</script>
-
 <div class="trip">
-  <div class="ongoing-container">
-    <Ongoing />
-  </div>
   <div class="image">
     <img class="img" src="calabar.png" alt="Calabar in an example of a booking">
   </div>

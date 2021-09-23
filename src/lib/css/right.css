@@ -1,0 +1,7 @@
+.right {
+    max-width: max-content;
+    display: grid;
+    grid-template-rows: 13.6875rem 1fr;
+    grid-template-columns: 13.875rem 1fr;
+    align-content: center;
+}

@@ -1,0 +1,13 @@
+:root {
+    --purple: #8A79DF;
+    --grey: #84829A;
+    --light-grey: #F5F5F5;
+    --text-clr: #5E6282;
+    --almost-black: #14183E;
+    --reg-font-size: 16px;
+    --line-height: 1.245;
+    --space-3: 1.8125rem;
+    --space-2: 1.125rem;
+    --space-1: .8125rem;
+    font-size: 16px;
+}

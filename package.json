@@ -12,11 +12,11 @@
     "@sveltejs/adapter-node": "^1.0.0-next.20",
     "@sveltejs/site-kit": "^1.4.0",
     "html-minifier": "^4.0.0",
-    "svelte-preprocess": "^4.9.4"
+    "svelte-preprocess": "^4.9.5"
   },
   "devDependencies": {
     "@sveltejs/adapter-static": "^1.0.0-next.18",
     "@sveltejs/kit": "next",
-    "svelte": "^3.42.6"
+    "svelte": "^3.43.0"
   }
 }

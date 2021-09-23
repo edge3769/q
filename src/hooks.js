@@ -1,7 +1,7 @@
-import {minify} from 'html-minifier'
-import {prerendering} from '$app/env'
+import { minify } from 'html-minifier'
+import { prerendering } from '$app/env'
 
-const { NODE_ENV} = process.env;
+const { NODE_ENV } = process.env;
 
 const min_opts = {
     collapseBooleanAttributes: true,
@@ -22,9 +22,9 @@ const min_opts = {
     sortClassName: true
 }
 
-export async function handle({ request, render}) {
-    const response = await render(request)
-    if(prerendering && response.headers['content-type'] === 'text/html') {
+export async function handle({ request, resolve }) {
+    const response = await resolve(request)
+    if (prerendering && response.headers['content-type'] === 'text/html') {
         response.body = minify(response.body, min_opts)
     }
     return response

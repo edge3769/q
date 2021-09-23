@@ -14,7 +14,7 @@
 .step .heading {
     color: var(--text-clr);
     font-weight: 700;
-    font-size: var(--reg-font-size);
+    font-size: 16px;
     line-height: var(--reg-line-height);
     margin: 0;
     grid-row: 1;

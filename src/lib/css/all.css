@@ -1,19 +1,11 @@
 /* @import url('$lib/css/progress.css'); */
+
 @import url('$lib/css/progress.css');
 @import url('$lib/css/colors.css');
 @import url('$lib/css/steps.css');
 @import url('$lib/css/trip.css');
 @import url('$lib/css/left.css');
-
-:root {
-    --purple: #8A79DF;
-    --grey: #84829A;
-    --light-grey: #F5F5F5;
-    --text-clr: #5E6282;
-    --almost-black: #14183E;
-    --reg-font-size: 16px;
-    --reg-line-height: 19.92px;
-}
+@import url('$lib/css/root.css');
 
 @font-face {
     font-family: Poppins;
@@ -22,8 +14,9 @@
     line-height: 124.5%;
 }
 
-body {
+* {
     font-family: Poppins;
+    line-height: var(--line-height);
 }
 
 .main {
@@ -48,9 +41,10 @@ body {
         display: grid;
         grid-template-columns: 1fr;
         grid-template-rows: 1fr 1fr;
-        grid-template-areas:'a''b';
+        grid-template-areas: 'a''b';
     }
 }
+
 
 /* TODO */
 

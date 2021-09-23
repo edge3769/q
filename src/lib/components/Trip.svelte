@@ -9,8 +9,8 @@
   <div class="image">
     <img class="img" src="calabar.png" alt="Calabar in an example of a booking">
   </div>
-  <h3>Trip To Calabar</h3>
-  <p class="grey">14th June | By Abayomi</p>
+  <p class="heading">Trip To Calabar</p>
+  <p class="detail grey">14th June | By Abayomi</p>
   <div class="button-row">
     <div class="icon">
       <img alt='leaf button icon in ui snapshot' src='leaf.png'>

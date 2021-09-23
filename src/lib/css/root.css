@@ -8,6 +8,8 @@
 @import url('$lib/css/main.css');
 
 :root {
+    --progress-radius: 1.875rem;
+    --progress-radius: 30px;
     --small-breakpoint: 73.6875rem;
     --tiny-breakpoint: 27.25rem;
     --purple: #8A79DF;
